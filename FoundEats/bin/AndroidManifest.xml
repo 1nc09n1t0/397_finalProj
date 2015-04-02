@@ -22,6 +22,42 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ChallengeActivity"
+            android:label="@string/title_activity_challenge" >
+        </activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_activity_map" >
+        </activity>
+        <activity
+            android:name=".TypeOfMealActivity"
+            android:label="@string/title_activity_type_of_meal" >
+        </activity>
+        <activity
+            android:name=".HotToPlayActivity"
+            android:label="@string/title_activity_hot_to_play" >
+        </activity>
+        <activity
+            android:name=".MakeMealActivity"
+            android:label="@string/title_activity_make_meal" >
+        </activity>
+        <activity
+            android:name=".AchievementsActivity"
+            android:label="@string/title_activity_achievements" >
+        </activity>
+        <activity
+            android:name=".FoodActivity"
+            android:label="@string/title_activity_food" >
+        </activity>
+        <activity
+            android:name=".ScoreActivity"
+            android:label="@string/title_activity_score" >
+        </activity>
+        <activity
+            android:name=".PickOldMealActivity"
+            android:label="@string/title_activity_pick_old_meal" >
+        </activity>
     </application>
 
 </manifest>
