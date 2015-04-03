@@ -4,17 +4,35 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends Activity {
 
-	//test push
-	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+     // Add Button Widgets
+        Button button_HowToPlay = (Button)findViewById(R.id.button_HowToPlay);        
+        Button button_TypeOfMeal = (Button)findViewById(R.id.button_TypeOfMeal);
+        Button button_MealPlan = (Button)findViewById(R.id.button_Achievements);
+        Button button_Map = (Button)findViewById(R.id.button_Map);
+        Button button_Challenge = (Button)findViewById(R.id.button_Challenge);
+        
+        //THE LISTENERS
+        button_HowToPlay.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
     }
 
 
