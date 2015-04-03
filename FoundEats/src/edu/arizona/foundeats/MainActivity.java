@@ -1,6 +1,7 @@
 package edu.arizona.foundeats;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,20 +20,60 @@ public class MainActivity extends Activity {
      // Add Button Widgets
         Button button_HowToPlay = (Button)findViewById(R.id.button_HowToPlay);        
         Button button_TypeOfMeal = (Button)findViewById(R.id.button_TypeOfMeal);
-        Button button_MealPlan = (Button)findViewById(R.id.button_Achievements);
+        Button button_MealPlan = (Button)findViewById(R.id.button_MealPlan);
         Button button_Map = (Button)findViewById(R.id.button_Map);
         Button button_Challenge = (Button)findViewById(R.id.button_Challenge);
+        Button button_Achievements = (Button)findViewById(R.id.button_Achievements);
         
-        //THE LISTENERS
+        //THE BUTTON LISTENERS
         button_HowToPlay.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent(getApplicationContext(),HowToPlayActivity.class);
+				startActivity(intent);
 			}
 		});
-        
+        button_TypeOfMeal.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),TypeOfMealActivity.class);
+				startActivity(intent);
+			}
+		});
+        button_MealPlan.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),MealPlanActivity.class);
+				startActivity(intent);
+			}
+		});
+        button_Map.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+				startActivity(intent);
+			}
+		});
+        button_Challenge.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),ChallengeActivity.class);
+				startActivity(intent);
+			}
+		});
+        button_Achievements.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),AchievementsActivity.class);
+				startActivity(intent);
+			}
+		});
     }
 
 

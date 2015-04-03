@@ -35,7 +35,7 @@
             android:label="@string/title_activity_type_of_meal" >
         </activity>
         <activity
-            android:name=".HotToPlayActivity"
+            android:name=".HowToPlayActivity"
             android:label="@string/title_activity_hot_to_play" >
         </activity>
         <activity
@@ -57,6 +57,10 @@
         <activity
             android:name=".PickOldMealActivity"
             android:label="@string/title_activity_pick_old_meal" >
+        </activity>
+        <activity
+            android:name=".MealPlanActivity"
+            android:label="@string/title_activity_meal_plan" >
         </activity>
     </application>
 

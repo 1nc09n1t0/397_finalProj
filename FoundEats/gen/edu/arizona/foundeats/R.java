@@ -43,9 +43,10 @@ public final class R {
         public static final int activity_main=0x7f030004;
         public static final int activity_make_meal=0x7f030005;
         public static final int activity_map=0x7f030006;
-        public static final int activity_pick_old_meal=0x7f030007;
-        public static final int activity_score=0x7f030008;
-        public static final int activity_type_of_meal=0x7f030009;
+        public static final int activity_meal_plan=0x7f030007;
+        public static final int activity_pick_old_meal=0x7f030008;
+        public static final int activity_score=0x7f030009;
+        public static final int activity_type_of_meal=0x7f03000a;
     }
     public static final class menu {
         public static final int achievements=0x7f070000;
@@ -55,9 +56,10 @@ public final class R {
         public static final int main=0x7f070004;
         public static final int make_meal=0x7f070005;
         public static final int map=0x7f070006;
-        public static final int pick_old_meal=0x7f070007;
-        public static final int score=0x7f070008;
-        public static final int type_of_meal=0x7f070009;
+        public static final int meal_plan=0x7f070007;
+        public static final int pick_old_meal=0x7f070008;
+        public static final int score=0x7f070009;
+        public static final int type_of_meal=0x7f07000a;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
@@ -69,6 +71,7 @@ public final class R {
         public static final int title_activity_hot_to_play=0x7f050006;
         public static final int title_activity_make_meal=0x7f050007;
         public static final int title_activity_map=0x7f050004;
+        public static final int title_activity_meal_plan=0x7f05000c;
         public static final int title_activity_pick_old_meal=0x7f05000b;
         public static final int title_activity_score=0x7f05000a;
         public static final int title_activity_type_of_meal=0x7f050005;

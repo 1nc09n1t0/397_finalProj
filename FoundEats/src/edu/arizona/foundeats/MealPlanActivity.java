@@ -5,18 +5,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HotToPlayActivity extends Activity {
+public class MealPlanActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_hot_to_play);
+		setContentView(R.layout.activity_meal_plan);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.hot_to_play, menu);
+		getMenuInflater().inflate(R.menu.meal_plan, menu);
 		return true;
 	}
 
