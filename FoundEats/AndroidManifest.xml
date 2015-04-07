@@ -62,6 +62,10 @@
             android:name=".MealPlanActivity"
             android:label="@string/title_activity_meal_plan" >
         </activity>
+        <meta-data 
+            android:name="com.google.androind.maps.v2.APIKEY"
+            android:value="API_KEY"/>
+        
     </application>
 
 </manifest>
