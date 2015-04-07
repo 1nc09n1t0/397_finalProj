@@ -465,7 +465,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0b0017;
-        public static final int action_settings=0x7f0b001f;
+        public static final int action_settings=0x7f0b0020;
         public static final int adjust_height=0x7f0b0000;
         public static final int adjust_width=0x7f0b0001;
         public static final int book_now=0x7f0b0010;
@@ -484,6 +484,7 @@ containing a value of this type.
         public static final int holo_dark=0x7f0b0007;
         public static final int holo_light=0x7f0b0008;
         public static final int hybrid=0x7f0b0003;
+        public static final int map=0x7f0b001f;
         public static final int match_parent=0x7f0b000e;
         public static final int monochrome=0x7f0b0016;
         public static final int none=0x7f0b0002;
