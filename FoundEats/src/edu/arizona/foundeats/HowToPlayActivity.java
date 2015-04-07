@@ -10,7 +10,7 @@ public class HowToPlayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_hot_to_play);
+		setContentView(R.layout.activity_how_to_play);
 	}
 
 	@Override

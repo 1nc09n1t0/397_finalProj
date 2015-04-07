@@ -39,7 +39,7 @@ public final class R {
         public static final int activity_achievements=0x7f030000;
         public static final int activity_challenge=0x7f030001;
         public static final int activity_food=0x7f030002;
-        public static final int activity_hot_to_play=0x7f030003;
+        public static final int activity_how_to_play=0x7f030003;
         public static final int activity_main=0x7f030004;
         public static final int activity_make_meal=0x7f030005;
         public static final int activity_map=0x7f030006;
