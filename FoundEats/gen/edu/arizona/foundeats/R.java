@@ -642,7 +642,7 @@ containing a value of this type.
         public static final int title_activity_achievements=0x7f06002b;
         public static final int title_activity_challenge=0x7f060026;
         public static final int title_activity_food=0x7f06002c;
-        public static final int title_activity_hot_to_play=0x7f060029;
+        public static final int title_activity_how_to_play=0x7f060029;
         public static final int title_activity_make_meal=0x7f06002a;
         public static final int title_activity_map=0x7f060027;
         public static final int title_activity_meal_plan=0x7f06002f;
