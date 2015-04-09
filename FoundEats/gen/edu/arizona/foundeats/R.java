@@ -47,6 +47,8 @@ public final class R {
         public static final int activity_pick_old_meal=0x7f030008;
         public static final int activity_score=0x7f030009;
         public static final int activity_type_of_meal=0x7f03000a;
+        public static final int data_example=0x7f03000b;
+        public static final int data_receiver=0x7f03000c;
     }
     public static final class menu {
         public static final int achievements=0x7f070000;
