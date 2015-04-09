@@ -14,5 +14,6 @@
     <string name="title_activity_score">ScoreActivity</string>
     <string name="title_activity_pick_old_meal">PickOldMealActivity</string>
     <string name="title_activity_meal_plan">MealPlanActivity</string>
+    <string name="button_DataExample">Data Example</string>
 
 </resources>
