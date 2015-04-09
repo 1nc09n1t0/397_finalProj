@@ -7,7 +7,7 @@
     <string name="title_activity_challenge">Challenge Activity</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_type_of_meal">TypeOfMealActivity</string>
-    <string name="title_activity_hot_to_play">HotToPlayActivity</string>
+    <string name="title_activity_how_to_play">HowToPlayActivity</string>
     <string name="title_activity_make_meal">MakeMealActivity</string>
     <string name="title_activity_achievements">AchievementsActivity</string>
     <string name="title_activity_food">FoodActivity</string>
