@@ -21,37 +21,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
-        android:text="Button" />
+        android:text="How to Play" />
 
     <Button
         android:id="@+id/button_TypeOfMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
-        android:text="Button" />
+        android:text="Type Of Meal" />
 
     <Button
         android:id="@+id/button_MealPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Plan Meal" />
 
     <Button
         android:id="@+id/button_Achievements"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Achievements" />
 
     <Button
         android:id="@+id/button_Map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Map" />
 
     <Button
         android:id="@+id/button_Challenge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Challenge" />
+
+    <Button
+        android:id="@+id/button_DataExample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_DataExample" />
 
 </LinearLayout>

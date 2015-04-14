@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
         Button button_Challenge = (Button)findViewById(R.id.button_Challenge);
         Button button_Achievements = (Button)findViewById(R.id.button_Achievements);
         
+        Button button_DataExample = (Button)findViewById(R.id.button_DataExample);
+        
         //THE BUTTON LISTENERS
         button_HowToPlay.setOnClickListener(new View.OnClickListener() {
 			
@@ -71,6 +73,14 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(),AchievementsActivity.class);
+				startActivity(intent);
+			}
+		});
+        button_DataExample.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), DataExample.class);
 				startActivity(intent);
 			}
 		});
