@@ -6,6 +6,8 @@ FoundEats/bin/
 # Directories #
 /build/
 /bin/
+/gen/
+/Build/
 target/
  
 # OS Files #
