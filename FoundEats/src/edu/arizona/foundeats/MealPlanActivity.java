@@ -1,11 +1,11 @@
 package edu.arizona.foundeats;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MealPlanActivity extends Activity {
+public class MealPlanActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
