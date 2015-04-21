@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 public class HowToPlayActivity extends Activity {
 
@@ -11,6 +12,8 @@ public class HowToPlayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_how_to_play);
+        WebView wv = (WebView) findViewById(R.id.webView1);
+        wv.loadUrl("file:///android_asset/hello.html");
 	}
 
 	@Override
