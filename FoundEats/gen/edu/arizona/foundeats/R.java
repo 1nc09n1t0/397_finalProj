@@ -465,7 +465,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f070017;
-        public static final int action_settings=0x7f070023;
+        public static final int action_settings=0x7f070025;
         public static final int adjust_height=0x7f070002;
         public static final int adjust_width=0x7f070001;
         public static final int bSearch=0x7f070022;
@@ -487,6 +487,8 @@ containing a value of this type.
         public static final int holo_dark=0x7f070007;
         public static final int holo_light=0x7f070008;
         public static final int hybrid=0x7f070006;
+        public static final int icon=0x7f070023;
+        public static final int label=0x7f070024;
         public static final int map=0x7f070020;
         public static final int match_parent=0x7f07000e;
         public static final int monochrome=0x7f070016;
@@ -518,6 +520,7 @@ containing a value of this type.
         public static final int activity_type_of_meal=0x7f03000a;
         public static final int data_example=0x7f03000b;
         public static final int data_receiver=0x7f03000c;
+        public static final int rowlayout=0x7f03000d;
     }
     public static final class menu {
         public static final int achievements=0x7f0b0000;
