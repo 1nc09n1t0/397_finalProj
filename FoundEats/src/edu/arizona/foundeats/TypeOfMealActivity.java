@@ -1,9 +1,11 @@
 package edu.arizona.foundeats;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class TypeOfMealActivity extends Activity {
 
@@ -30,5 +32,20 @@ public class TypeOfMealActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void startBreakfast(View view) {
+		Nutrition.newBreakfast();
+		startActivity(new Intent(this, MakeMealActivity.class));
+	}
+	
+	public void startLunch(View view) {
+		Nutrition.newLunch();
+		startActivity(new Intent(this, MakeMealActivity.class));
+	}
+	
+	public void startDinner(View view) {
+		Nutrition.newDinner();
+		startActivity(new Intent(this, MakeMealActivity.class));
 	}
 }

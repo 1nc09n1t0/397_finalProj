@@ -15,8 +15,38 @@ public class Nutrition {
 	private static int sodium;
 	private static int carbohydrates;
 	private static int protein;
-
-	public static void reset() {
+	
+	public static void newBreakfast() {
+		totalCalories = 0;
+		totalFat = 0;
+		totalCholesterol = 0;
+		totalSodium = 0;
+		totalCarbohydrates = 0;
+		totalProtein = 0;
+		calories = 0;
+		fat = 0;
+		cholesterol = 0;
+		sodium = 0;
+		carbohydrates = 0;
+		protein = 0;
+	}
+	
+	public static void newLunch() {
+		totalCalories = 0;
+		totalFat = 0;
+		totalCholesterol = 0;
+		totalSodium = 0;
+		totalCarbohydrates = 0;
+		totalProtein = 0;
+		calories = 0;
+		fat = 0;
+		cholesterol = 0;
+		sodium = 0;
+		carbohydrates = 0;
+		protein = 0;
+	}
+	
+	public static void newDinner() {
 		totalCalories = 0;
 		totalFat = 0;
 		totalCholesterol = 0;
