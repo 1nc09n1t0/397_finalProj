@@ -19,5 +19,11 @@
     <string name="lunch">Lunch</string>
     <string name="breakfast">Breakfast</string>
     <string name="mealChoice">What meal are you planning to make?</string>
+    <string name="calories">Calories</string>
+    <string name="fat">Fat</string>
+    <string name="cholesterol">Cholesterol</string>
+    <string name="sodium">Sodium</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="protein">Protein</string>
 
 </resources>
