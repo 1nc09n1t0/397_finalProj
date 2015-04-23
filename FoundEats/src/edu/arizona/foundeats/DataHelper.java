@@ -19,6 +19,7 @@ public class DataHelper {
 	// Tables
 	private static final String ACHIEVEMENTSTABLE = "achievementsTable";
 	private static final String MEALTABLE = "mealTable";
+	private static final String FOODTABLE = "foodTable";
 
 	// Columns
 	private static final String ACHIEVEMENT = "achievement";
@@ -29,6 +30,12 @@ public class DataHelper {
 	private static final String LOCATION = "location";
 	private static final String COST = "cost";
 	private static final String REQUIREMENT = "requirement";
+	
+	private static final String FOOD = "food";
+	private static final String CALORIES = "calories";
+	private static final String CARBS = "carbs";
+	private static final String FAT = "fat";
+	private static final String PROTEIN = "protein";
 
 	/*
 	 * getCompletedAchievements
@@ -169,6 +176,51 @@ public class DataHelper {
 		db.update(ACHIEVEMENTSTABLE, values, "achievement=?", new String[] { achievement });
 	}
 
+	/* 
+	 * addFood
+	 * Adds a certain food to the food database.
+	 * Input: - String name of food
+	 * - int amount of calories per serving
+	 * - int amount of carbs per serving
+	 * - int amount of fat per serving
+	 * - int amount of protein per serving
+	 * Output: - None
+	 */
+	public void addFood(String food, int calories, int carbs, int fat, int protein){
+		ContentValues values = new ContentValues();
+		values.put(FOOD, food);
+		values.put(CALORIES, calories);
+		values.put(CARBS, carbs);
+		values.put(FAT, fat);
+		values.put(PROTEIN, protein);
+		db.insert(FOODTABLE, null, values);
+	}
+
+	/*
+	 * getFoodInfo
+	 * Gets information of food given the name of the food.
+	 * Input: - String food name
+	 * Output: - List of food data
+	 * list[0] = Name of food
+	 * list[1] = Calories
+	 * list[2] = Carbs
+	 * list[3] = Fat
+	 * list[4] = Protein
+	 */
+	public List<String> getFoodInfo(String food){
+		List<String> list = new ArrayList<String>();
+		list.add(food);
+		Cursor cursor = this.db.query(FOODTABLE, new String[] { CALORIES, CARBS, FAT, PROTEIN }, "food = ?", new String[] { food }, null, null, null);
+		cursor.moveToFirst();
+		list.add(cursor.getString(0));
+		list.add(cursor.getString(1));
+		list.add(cursor.getString(2));
+		list.add(cursor.getString(3));
+		if (cursor != null && !cursor.isClosed())
+			cursor.close();
+		return list;
+	}
+	
 	// Basic Functions
 	public DataHelper(Context context) {
 		this.context = context;
@@ -198,6 +250,7 @@ public class DataHelper {
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL("CREATE TABLE " + ACHIEVEMENTSTABLE + "(achievement text not null, count integer not null, requirement text not null)");
 			db.execSQL("CREATE TABLE " + MEALTABLE + "(achievement text not null, date text not null, score integer not null, meal text not null, location text not null, cost integer not null)");
+			db.execSQL("CREATE TABLE " + FOODTABLE + "(food text not null, calories integer not null, carbs integer not null, fat integer not null, protein integer not null)");
 		}
 
 		@Override
