@@ -19,14 +19,14 @@ public class MakeMealActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_make_meal);
-		
+
 		caloriesBar = (ProgressBar) findViewById(R.id.progressCalories);
 		fatBar = (ProgressBar) findViewById(R.id.progressFat);
 		cholBar = (ProgressBar) findViewById(R.id.progressCholesterol);
 		sodiumBar = (ProgressBar) findViewById(R.id.progressSodium);
 		carbBar = (ProgressBar) findViewById(R.id.progressCarbs);
 		proteinBar = (ProgressBar) findViewById(R.id.progressProtein);
-		
+
 		caloriesBar.setMax(Nutrition.getTotalCalories());
 		fatBar.setMax(Nutrition.getTotalFat());
 		cholBar.setMax(Nutrition.getTotalCholesterol());
@@ -53,9 +53,15 @@ public class MakeMealActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void addFood(View view){
+
+	public void addFood(View view) {
 		Nutrition.addFat(5);
+
+		caloriesBar.setProgress(Nutrition.getCalories());
 		fatBar.setProgress(Nutrition.getFat());
+		cholBar.setProgress(Nutrition.getCholesterol());
+		sodiumBar.setProgress(Nutrition.getSodium());
+		carbBar.setProgress(Nutrition.getCarbohydrates());
+		proteinBar.setProgress(Nutrition.getProtein());
 	}
 }
