@@ -3,9 +3,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -18,195 +20,55 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class DataExample extends Activity {
-
 
     HttpClient client;
     EditText searchText;
     Button searchButton;
-    String q="";
-    String encoder="";
-    String signatureString="";
-    String encodedSignString="";
-    String finalSignatureString="";
-    String key="";
-    String hmacKey="";
+    List<String> namesOfFoods;
+    List<String> nutrients;
+    AlertDialog levelDialog;
     JSONObject json;
-
-    final static String URL="http://platform.fatsecret.com/rest/server.api";
-    final static String SIGN="a=foo&oauth_consumer_key=demo&oauth_nonce=abc&oauth_signature_method=HMAC-SHA1&oauth_timestamp=12345678&oauth_version=1.0&z=bar";
-    final static String OAUTH_CONSUMER_KEY="42b26199c061485290df43070e1df2f8";
-    final static String OAUTH_ACCESS_SECRET="84fed8096c294b86b6a581e549ab4538";
-    final static String OAUTH_SIGNATURE_METHOD="HMAC-SHA1";
-    final static String OAUTH_VERSION="1.0";
-    final static String ENCODED_SIGN_STRING="a%3Dbar%26%26oauth_consumer_key%3Ddemo%26oauth_nonce%3Dabc%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D12345678%26oauth_version%3D1.0%26z%3Dbar";
-    final static String OAUTH_SIGNATURE=OAUTH_CONSUMER_KEY + "&" + OAUTH_ACCESS_SECRET;
-    static String OAUTH_TIMESTAMP="";
-    static String OAUTH_NOUNCE="shreyas";
-    final static String a="foo";
-    final static String z="bar";
-
-
+    JSONObject json2;
+    int currInt;
+    TextView foodInfo;
+    FoodEntry currFood;
+    AsyncTask<String, Integer, String> myAsyncTask2;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_example);
-        initialize();
-    }
+        Button submit = (Button)findViewById(R.id.bSearch);
+        searchText = (EditText)findViewById(R.id.etSearch);
+        foodInfo = (TextView)findViewById(R.id.textFoodInfo);
+        submit.setOnClickListener(new OnClickListener(){
 
-    public void initialize() {
-        // TODO Auto-generated method stub
-        searchText=(EditText)findViewById(R.id.etSearch);
-        searchButton=(Button)findViewById(R.id.bSearch);
-
-
-        client=new DefaultHttpClient();
-        long timestamp=(System.currentTimeMillis() / 1000);
-        OAUTH_TIMESTAMP=timestamp+"";
-        OAUTH_NOUNCE += timestamp;
-        Log.d("TIMESTAMP:", OAUTH_TIMESTAMP);
-        try {
-            encoder=URLEncoder.encode(URL, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Log.d("URL ENCODED:", encoder);
-
-        Map<String, String> params=new HashMap<String, String>();
-
-        params.put("oauth_consumer_key", OAUTH_CONSUMER_KEY);
-        params.put("oauth_signature_method", OAUTH_SIGNATURE_METHOD);
-        params.put("oauth_timestamp", OAUTH_TIMESTAMP);
-        params.put("oauth_nounce", OAUTH_NOUNCE);
-        params.put("oauth_version", OAUTH_VERSION);
-//        params.put("oauth_signature", OAUTH_CONSUMER_KEY + "&" + OAUTH_ACCESS_SECRET);
-//      params.put("a", a);
-//      params.put("z", z);
-
-        Map<String, String> sortedMap=new TreeMap<String, String>(params);
-        printMap(sortedMap);
-        String sigString=concatenate(sortedMap);
-        Log.d("CONCATENATED STRING:", sigString);
-
-        encodedSignString=encodeSignatureString(sigString);
-        Log.d("ORIGINAL ENCODED STRING:", ENCODED_SIGN_STRING);
-        Log.d("MY ENCODED STRING:", encodedSignString);
-
-        finalSignatureString="GET" + "&" + encoder + "&" + encodedSignString + "&";
-        //key=OAUTH_CONSUMER_KEY + "&" + OAUTH_ACCESS_SECRET;
-        finalSignatureString = finalSignatureString + "oauth_signature=" + OAUTH_SIGNATURE;
-        
-        Log.d("FINAL SIGN STRING:", finalSignatureString);
-
-//        hmacKey=computeHmac("HmacSHA1",finalSignatureString,key);
-      hmacKey=encodeBase(OAUTH_SIGNATURE);
-        try{
-            hmacKey=URLEncoder.encode(hmacKey, "UTF-8");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d("HMAC KEY:", hmacKey);
-        Log.d("DONE:", "Done with initialisaton");
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                q=searchText.getText().toString();
-                searchFood(q);
-            }
+			@Override
+			public void onClick(View v) {
+				String searchThis = searchText.getText().toString();
+				if(searchThis != null)
+					searchFood(searchThis);
+			}
         });
-
-    }
-
-    private String encodeBase(String hmacKey2) {
-        // TODO Auto-generated method stub
-        byte[] data=null;
-        try {
-            data=hmacKey2.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-        String base64=Base64.encodeToString(data, Base64.DEFAULT);
-        Log.d("Base 64", base64);
-        return base64;
-
-    }
-
-//    private String computeHmac(String type, String value, String key) {
-//        // TODO Auto-generated method stub
-//        try{
-//            Mac mac=Mac.getInstance(type);
-//            SecretKeySpec secret=new SecretKeySpec(key.getBytes(), type);
-//            mac.init(secret);
-//            byte[] bytes = mac.doFinal(value.getBytes()); 
-//
-//
-//            return new String(Base64.encode(bytes,0));
-//        }
-//        catch (Exception e) {
-//            // TODO: handle exception
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
-
-    private String encodeSignatureString(String sigString) {
-        // TODO Auto-generated method stub
-        String encodedSignString="";
-        try {
-            encodedSignString=URLEncoder.encode(sigString, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return encodedSignString;
-    }
-
-    private String concatenate(Map<String, String> sortedMap) {
-        // TODO Auto-generated method stub
-        String signatureString="";
-        Set s=sortedMap.entrySet();
-        Iterator i=s.iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            String key=(String)entry.getKey();
-            String val=(String)entry.getValue();
-
-            signatureString+=key + "=" + val +"&";
-
-        }
-        return signatureString.substring(0, (signatureString.length()-1));
-    }
-
-    private void printMap(Map<String, String> sortedMap) {
-        // TODO Auto-generated method stub
-        Set s=sortedMap.entrySet();
-        Iterator i=s.iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            String key=(String)entry.getKey();
-            String val=(String)entry.getValue();
-
-            Log.d("SORTED :", key + "=" + val);
-        }
     }
 
     @Override
@@ -215,83 +77,48 @@ public class DataExample extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    public void searchFood(String q) {
-        final String searchKeyword=q;
+    
+    public void searchFood(final String q) {
 
         AsyncTask<String, Integer, String> myAsyncTask = new AsyncTask<String, Integer, String>()
         {
 
             @Override
             protected String doInBackground(String... params) {
-                // TODO Auto-generated method stub
+            	String searchKeyword;
+            	
                 try{
-                	// same as guy from stackoverflow
-//                	String requestString=URL + "?search_expression=" +searchKeyword + 
-//                						"&format=json" + "&" + 
-//                						"oauth_consumer_key="+OAUTH_CONSUMER_KEY + "&" + 
-//                						"oauth_signature_method="+OAUTH_SIGNATURE_METHOD + "&" + 
-//                						"oauth_timestamp="+Long.parseLong(OAUTH_TIMESTAMP) + "&" + 
-//                						"oauth_nonce="+OAUTH_NOUNCE + "&" + 
-//                						"oauth_version="+OAUTH_VERSION + "&" + 
-//                						"oauth_signature="+OAUTH_SIGNATURE + "&" + 
-//                						"method=foods.search";
-                	// same as guy from stackoverflow minus the json
-//                	String requestString=URL + "?search_expression=" +searchKeyword + 
-//                						/*"&format=json"*/  "&" + 
-//                						"oauth_consumer_key="+OAUTH_CONSUMER_KEY + "&" + 
-//                						"oauth_signature_method="+OAUTH_SIGNATURE_METHOD + "&" + 
-//                						"oauth_timestamp="+Long.parseLong(OAUTH_TIMESTAMP) + "&" + 
-//                						"oauth_nonce="+OAUTH_NOUNCE + "&" + 
-//                						"oauth_version="+OAUTH_VERSION + "&" + 
-//                						"oauth_signature="+OAUTH_SIGNATURE + "&" + 
-//                						"method=foods.search";
-                    // same as nodejs guy
-//                	String requestString = URL + "?method=foods.search%26"
-//			                			+ "oauth_consumer_key=" + OAUTH_CONSUMER_KEY + 
-//			                			"%26oauth_nonce=1jzw15h3fas8aor%26"
-//			                			+ "oauth_signature_method=HMAC-SHA1" + //OAUTH_SIGNATURE_METHOD + 
-//			                			"%26oauth_timestamp=1384206855%26"
-//			                			+ "oauth_version=1.0%26"
-//			                			+ "oauth_signature=" + OAUTH_SIGNATURE + 
-//			                			"%26search_expression=banana";
-                	// same as example, except for the foods search, search expression, consumer key
-                	String requestString = URL + "?method=foods.search%26"
-                			+ "oauth_consumer_key%3D" + OAUTH_CONSUMER_KEY +"%26"
-                			+ "oauth_nonce%3Dabc%26"
-                			+ "oauth_signature_method%3DHMAC-SHA1%26"
-                			+ "oauth_timestamp%3D12345678%26"
-                			+ "oauth_version%3D1.0%26"
-                			+ "oauth_signature%3D" + hmacKey
-                			+ "search_expression%3Dbanana";
-                	java.net.URL url=new java.net.URL(requestString);
-                    Log.d("FINAL REQUEST STRING:", requestString);
-                    StringBuilder sb=new StringBuilder(requestString);
-                    StringBuilder foodRequest=new StringBuilder();
-                    HttpGet get=new HttpGet(url.toString());
-                    HttpResponse r= client.execute(get);
+                	searchKeyword = q.replaceAll("\\s+", "+");
+                	
+                	String requestString = "http://api.nal.usda.gov/usda/ndb/search/?format=json&q=" + searchKeyword + "&max=50&offset=0&api_key=KppbRe3Yt8JvTn9PNQLWQOf7K2aiYsVgiEyv2gRc";
+                	java.net.URL url = new java.net.URL(requestString);
+                	
+                    StringBuilder foodRequest = new StringBuilder();
+                    HttpGet get = new HttpGet(url.toString());
+                    client = new DefaultHttpClient();
+                    HttpResponse r = client.execute(get);
                     Log.d("EXECUTED:", "Executed post successfully!");
-                    int status=r.getStatusLine().getStatusCode();
+                    int status = r.getStatusLine().getStatusCode();
                     Log.d("STATUS:", status+"");
 
-//                    if(status >= 200 && status < 300)
-//                    {
+                    if(status >= 200 && status < 300){
                         BufferedReader br=new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
                         String t;
-                        while((t = br.readLine())!=null)
-                        {
+                        while((t = br.readLine())!=null){
                             foodRequest.append(t);
                         }
                         Log.d("", foodRequest.toString());
-//                        json=new JSONObject(foodRequest.toString());
-//                        Log.d("GOT:", "GOT JSON OBJECT");
-//                    }
-                }/*
-                catch (JSONException e) {
-                    // TODO: handle exception
+                        json = new JSONObject(foodRequest.toString());
+                        namesOfFoods = new ArrayList<String>();
+                        for(int i = 0; i < json.getJSONObject("list").getJSONArray("item").length(); i++){
+                        	namesOfFoods.add(i, json.getJSONObject("list").getJSONArray("item").getJSONObject(i).getString("name"));
+//                        	Log.d("item " + i + ": ", namesOfFoods.get(i));
+                        }
+//                        Log.d("RESULT:", x);
+                    }
+                }catch (JSONException e) {
                     Log.e("ERROR:", "This is not a valid JSON request");
-                }*/
-                catch (Exception e) {
-                    // TODO: handle exception
+                }catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -299,13 +126,107 @@ public class DataExample extends Activity {
 
             @Override
             protected void onPostExecute(String result) {
-                // TODO Auto-generated method stub
                 super.onPostExecute(result);
+                pickFood();
             }
-
         };
         myAsyncTask.execute();
+//        pickFood();
+        
+        myAsyncTask2 = new AsyncTask<String, Integer, String>(){
 
+        	@Override
+        	protected String doInBackground(String... params) {
+
+        		try{
+
+        			String requestString = "http://api.nal.usda.gov/usda/ndb/reports/?ndbno=" + currFood.number +"&api_key=KppbRe3Yt8JvTn9PNQLWQOf7K2aiYsVgiEyv2gRc";
+//        			String requestString = "http://api.nal.usda.gov/usda/ndb/reports/?ndbno=11987&api_key=KppbRe3Yt8JvTn9PNQLWQOf7K2aiYsVgiEyv2gRc";
+        			java.net.URL url = new java.net.URL(requestString);
+
+        			StringBuilder foodRequest = new StringBuilder();
+        			HttpGet get = new HttpGet(url.toString());
+        			client = new DefaultHttpClient();
+        			HttpResponse r = client.execute(get);
+        			Log.d("EXECUTED:", "Executed post successfully!");
+        			int status = r.getStatusLine().getStatusCode();
+        			Log.d("STATUS:", status+"");
+
+        			if(status >= 200 && status < 300){
+        				BufferedReader br=new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+        				String t;
+        				while((t = br.readLine())!=null){
+        					foodRequest.append(t);
+        				}
+        				Log.d("", foodRequest.toString());
+        				json2 = new JSONObject(foodRequest.toString());
+        				// 1-calories, 3-protein, 4-fat, 6-carbs, 20-sodium, 106-cholesterol
+        				currFood.calories = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(1).getInt("value");
+        				Log.d("Calories:", currFood.calories+"");
+        			}
+        		}catch (JSONException e) {
+        			Log.e("ERROR:", "This is not a valid JSON request");
+        		}catch (Exception e) {
+        			e.printStackTrace();
+        		}
+        		return null;
+        	}
+
+        	@Override
+        	protected void onPostExecute(String result) {
+        		super.onPostExecute(result);
+//        		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number);
+        	}
+        };
     }
 
+    public void pickFood(){
+    	String[] foodArray = new String[namesOfFoods.size()];
+    	foodArray = namesOfFoods.toArray(foodArray);
+//    	for(int i = 0; i < foodArray.length; i++){
+//    		Log.d("Food " + i + ": ", foodArray[i]);
+//    	}
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select your food");
+        builder.setSingleChoiceItems(foodArray, -1, null);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				levelDialog.dismiss();
+				currInt = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+				Log.d("Curr int:", currInt+"");
+				JSONObject currObj;
+				try {
+					currObj = json.getJSONObject("list").getJSONArray("item").getJSONObject(currInt);
+					currFood = new FoodEntry(currObj.getString("name"), Integer.parseInt(currObj.getString("ndbno")));
+					foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number);
+					myAsyncTask2.execute();
+//					http://api.nal.usda.gov/usda/ndb/reports/?ndbno=11987&type=b&format=fjson&api_key=DEMO_KEY
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+        });
+        levelDialog = builder.create();
+        levelDialog.show();
+    }
+
+    public static class FoodEntry {
+        public final String name;
+        public final int number;
+        public int calories;
+        public int fat;
+        public int carbs;
+        public int protein;
+        public int sodium;
+        public int cholesterol;
+
+        private FoodEntry(String name, int number) {
+            this.name = name;
+            this.number = number;
+        }
+    }
+    
 }

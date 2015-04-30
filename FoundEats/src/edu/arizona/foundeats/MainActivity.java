@@ -11,11 +11,15 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 
+	private DataHelper dh;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        dh = new DataHelper(this);
+        dh.addFood("banana", 89, 23, 0, 1);
         
      // Add Button Widgets
         Button button_HowToPlay = (Button)findViewById(R.id.button_HowToPlay);        
