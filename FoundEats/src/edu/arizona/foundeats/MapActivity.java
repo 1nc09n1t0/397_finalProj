@@ -1,6 +1,7 @@
 package edu.arizona.foundeats;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,21 +21,35 @@ import com.google.android.gms.maps.model.LatLng;
 public class MapActivity extends Activity {
 	static final LatLng TUCSON = new LatLng(32.221743, -110.926479);
 	private GoogleMap map;
+	private DataHelper dh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		dh = new DataHelper(this); 
 		
 		final Geocoder coder = new Geocoder(getApplicationContext());
 		 map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 			        .getMap();
 		 if (map!=null){
 		    	try {
-					List<Address> addressList = coder.getFromLocationName("4411 E. Speedway, Tucson, AZ", 1);
+		    		
+		    		//Populate address list
+					//List<Address> addressList = coder.getFromLocationName("4411 E. Speedway, Tucson, AZ", 1);
+		    		List<Address> addressList = new ArrayList<Address>();
+		    		
+		    		List<String> dhAddresses = dh.getLocations();
+					for (String address : dhAddresses){
+						addressList.add(coder.getFromLocationName(address, 1).get(0));
+					}
+					
+					//Create iterator
 					Iterator<Address> locations = addressList.iterator();
 					double lat = 0f;
 					double lon = 0f;
+					
+					// SHOW LOCATIONS
 					while (locations.hasNext()) {
 						Address loc = locations.next();
 						lat = loc.getLatitude();
@@ -46,6 +61,10 @@ public class MapActivity extends Activity {
 //						.title("HOME OFFICE")
 //				        .snippet("4411 E. Speedway, Tucson, AZ")
 //				        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+					
+					
+					
+					
 					
 				} catch (IOException e) {
 					Toast.makeText(getApplicationContext(), "Failed to populate List<Address>", Toast.LENGTH_SHORT).show();
