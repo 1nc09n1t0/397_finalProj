@@ -160,9 +160,31 @@ public class DataExample extends Activity {
         				}
         				Log.d("", foodRequest.toString());
         				json2 = new JSONObject(foodRequest.toString());
-        				// 1-calories, 3-protein, 4-fat, 6-carbs, 20-sodium, 106-cholesterol
-        				currFood.calories = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(1).getInt("value");
-        				Log.d("Calories:", currFood.calories+"");
+        				JSONArray nutrientArray = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients");
+        				for(int i = 0; i < nutrientArray.length(); i++){
+//        					Log.d("", nutrientArray.getJSONObject(i).getInt("nutrient_id") + "");
+        					if(/*nutrientArray.getJSONObject(i).getInt("nutrient_id") == 208*/nutrientArray.getJSONObject(i).getString("nutrient_id").equals("208")){
+        						currFood.calories = nutrientArray.getJSONObject(i).getInt("value");
+        					}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 203){
+        						currFood.protein = nutrientArray.getJSONObject(i).getInt("value");
+        					}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 204){
+        						currFood.fat = nutrientArray.getJSONObject(i).getInt("value");
+        					}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 205){
+        						currFood.carbs = nutrientArray.getJSONObject(i).getInt("value");
+        					}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 307){
+        						currFood.sodium = nutrientArray.getJSONObject(i).getInt("value");
+        					}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 601){
+        						currFood.cholesterol = nutrientArray.getJSONObject(i).getInt("value");
+        					}
+        				}
+        				// 1-calories, 2-protein, 3-fat, 4-carbs, 12-sodium, 30-cholesterol
+//        				currFood.calories = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(1).getInt("value");
+//        				currFood.protein = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(2).getInt("value");
+//        				currFood.fat = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(3).getInt("value");
+//        				currFood.carbs = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(4).getInt("value");
+//        				currFood.sodium = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(12).getInt("value");
+//        				currFood.cholesterol = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(30).getInt("value");
+//        				Log.d("Calories:", currFood.calories+"");
         			}
         		}catch (JSONException e) {
         			Log.e("ERROR:", "This is not a valid JSON request");
@@ -175,7 +197,8 @@ public class DataExample extends Activity {
         	@Override
         	protected void onPostExecute(String result) {
         		super.onPostExecute(result);
-//        		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number);
+        		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number + "\nCalories: " + currFood.calories + "\nProtein: " + currFood.protein
+        			+ "\nFat: " + currFood.fat + "\nCarbs: " + currFood.carbs + "\nSodium: " + currFood.sodium + "\nCholesterol: " + currFood.cholesterol);
         	}
         };
     }
@@ -199,7 +222,7 @@ public class DataExample extends Activity {
 				JSONObject currObj;
 				try {
 					currObj = json.getJSONObject("list").getJSONArray("item").getJSONObject(currInt);
-					currFood = new FoodEntry(currObj.getString("name"), Integer.parseInt(currObj.getString("ndbno")));
+					currFood = new FoodEntry(currObj.getString("name"), currObj.getString("ndbno"));
 					foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number);
 					myAsyncTask2.execute();
 //					http://api.nal.usda.gov/usda/ndb/reports/?ndbno=11987&type=b&format=fjson&api_key=DEMO_KEY
@@ -215,7 +238,7 @@ public class DataExample extends Activity {
 
     public static class FoodEntry {
         public final String name;
-        public final int number;
+        public final String number;
         public int calories;
         public int fat;
         public int carbs;
@@ -223,7 +246,7 @@ public class DataExample extends Activity {
         public int sodium;
         public int cholesterol;
 
-        private FoodEntry(String name, int number) {
+        private FoodEntry(String name, String number) {
             this.name = name;
             this.number = number;
         }
