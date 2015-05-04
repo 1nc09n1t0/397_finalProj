@@ -1,5 +1,7 @@
 package edu.arizona.foundeats;
 
+import java.util.ArrayList;
+
 public class Nutrition {
 
 	private static int totalCalories;
@@ -15,8 +17,11 @@ public class Nutrition {
 	private static int sodium;
 	private static int carbohydrates;
 	private static int protein;
-	
+
+	public static ArrayList<String> foodNames;
+
 	public static void newBreakfast() {
+		foodNames = new ArrayList<String>();
 		totalCalories = 20;
 		totalFat = 20;
 		totalCholesterol = 20;
@@ -30,8 +35,9 @@ public class Nutrition {
 		carbohydrates = 0;
 		protein = 0;
 	}
-	
+
 	public static void newLunch() {
+		foodNames = new ArrayList<String>();
 		totalCalories = 0;
 		totalFat = 0;
 		totalCholesterol = 0;
@@ -45,8 +51,9 @@ public class Nutrition {
 		carbohydrates = 0;
 		protein = 0;
 	}
-	
+
 	public static void newDinner() {
+		foodNames = new ArrayList<String>();
 		totalCalories = 0;
 		totalFat = 0;
 		totalCholesterol = 0;
