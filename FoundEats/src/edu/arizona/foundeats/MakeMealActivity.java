@@ -63,17 +63,11 @@ public class MakeMealActivity extends Activity {
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// Check which request we're responding to
-		if (requestCode == FOOD_REQUEST) {
-			// Make sure the request was successful
-			if (resultCode == RESULT_OK) {
-				caloriesBar.setProgress(Nutrition.getCalories());
-				fatBar.setProgress(Nutrition.getFat());
-				cholBar.setProgress(Nutrition.getCholesterol());
-				sodiumBar.setProgress(Nutrition.getSodium());
-				carbBar.setProgress(Nutrition.getCarbohydrates());
-				proteinBar.setProgress(Nutrition.getProtein());
-			}
-		}
+		caloriesBar.setProgress(Nutrition.getCalories());
+		fatBar.setProgress(Nutrition.getFat());
+		cholBar.setProgress(Nutrition.getCholesterol());
+		sodiumBar.setProgress(Nutrition.getSodium());
+		carbBar.setProgress(Nutrition.getCarbohydrates());
+		proteinBar.setProgress(Nutrition.getProtein());
 	}
 }
