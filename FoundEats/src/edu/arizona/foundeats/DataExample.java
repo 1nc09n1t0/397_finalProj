@@ -213,6 +213,7 @@ public class DataExample extends Activity {
         		Nutrition.addCholesterol(currFood.cholesterol);
         		Nutrition.addFat(currFood.fat);
         		Nutrition.addProtein(currFood.protein);
+        		Nutrition.foodNames.add(currFood.name);
         		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number + "\nCalories: " + currFood.calories + "\nProtein: " + currFood.protein
         			+ "\nFat: " + currFood.fat + "\nCarbs: " + currFood.carbs + "\nSodium: " + currFood.sodium + "\nCholesterol: " + currFood.cholesterol);
         	}
