@@ -15,8 +15,38 @@ public class Nutrition {
 	private static int sodium;
 	private static int carbohydrates;
 	private static int protein;
-
-	public static void reset() {
+	
+	public static void newBreakfast() {
+		totalCalories = 20;
+		totalFat = 20;
+		totalCholesterol = 20;
+		totalSodium = 20;
+		totalCarbohydrates = 20;
+		totalProtein = 20;
+		calories = 0;
+		fat = 0;
+		cholesterol = 0;
+		sodium = 0;
+		carbohydrates = 0;
+		protein = 0;
+	}
+	
+	public static void newLunch() {
+		totalCalories = 0;
+		totalFat = 0;
+		totalCholesterol = 0;
+		totalSodium = 0;
+		totalCarbohydrates = 0;
+		totalProtein = 0;
+		calories = 0;
+		fat = 0;
+		cholesterol = 0;
+		sodium = 0;
+		carbohydrates = 0;
+		protein = 0;
+	}
+	
+	public static void newDinner() {
 		totalCalories = 0;
 		totalFat = 0;
 		totalCholesterol = 0;
@@ -149,29 +179,5 @@ public class Nutrition {
 
 	public static void addProtein(int x) {
 		protein += x;
-	}
-
-	public static int getCaloriePercentage() {
-		return Math.round(getCalories() / getTotalCalories());
-	}
-
-	public static int getFatPercentage() {
-		return Math.round(getFat() / getTotalFat());
-	}
-
-	public static int getCholesterolPercentage() {
-		return Math.round(getCholesterol() / getTotalCholesterol());
-	}
-
-	public static int getSodiumPercentage() {
-		return Math.round(getSodium() / getTotalSodium());
-	}
-
-	public static int getCarbohydratePercentage() {
-		return Math.round(getCarbohydrates() / getTotalCarbohydrates());
-	}
-
-	public static int getProteinPercentage() {
-		return Math.round(getProtein() / getTotalProtein());
 	}
 }

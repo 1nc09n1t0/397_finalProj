@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Found Eats</string>
+    <string name="desc">This is a custom listview item</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_challenge">Challenge Activity</string>
@@ -15,5 +16,17 @@
     <string name="title_activity_pick_old_meal">PickOldMealActivity</string>
     <string name="title_activity_meal_plan">MealPlanActivity</string>
     <string name="button_DataExample">Data Example</string>
+    <string name="dinner">Dinner</string>
+    <string name="lunch">Lunch</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="mealChoice">What meal are you planning to make?</string>
+    <string name="calories">Calories</string>
+    <string name="fat">Fat</string>
+    <string name="cholesterol">Cholesterol</string>
+    <string name="sodium">Sodium</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="protein">Protein</string>
+    <string name="addFood">Add Food</string>
+    <string name="removeFood">Remove Food</string>
 
 </resources>
