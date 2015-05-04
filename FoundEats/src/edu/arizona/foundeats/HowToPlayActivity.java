@@ -13,7 +13,7 @@ public class HowToPlayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_how_to_play);
         WebView wv = (WebView) findViewById(R.id.webView1);
-        wv.loadUrl("file:///android_asset/hello.html");
+        wv.loadUrl("file:///android_asset/how_to_play.html");
 	}
 
 	@Override
