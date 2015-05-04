@@ -55,30 +55,14 @@ public class DataExample extends Activity {
 			@Override
 			public void onClick(View v) {
 				String searchThis = searchText.getText().toString();
+				addButton.setEnabled(false);
 				if(searchThis != null)
 					searchFood(searchThis);
+				else
+					Toast.makeText(getApplicationContext(), "Please enter a food", Toast.LENGTH_LONG).show();
 			}
         });
         
-        addButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				if(currFood == null)
-					Toast.makeText(getApplicationContext(), "Please enter a food", Toast.LENGTH_LONG).show();
-				else{
-					Intent intent = new Intent(getApplicationContext(), MakeMealActivity.class);
-					Nutrition.addCalories(currFood.calories);
-	        		Nutrition.addCarbohydrates(currFood.carbs);
-	        		Nutrition.addCholesterol(currFood.cholesterol);
-	        		Nutrition.addFat(currFood.fat);
-	        		Nutrition.addProtein(currFood.protein);
-	        		Nutrition.foodNames.add(currFood.name);
-					setResult(1, intent);
-					finish();
-				}
-			}
-        });
     }
 
     @Override
@@ -135,6 +119,10 @@ public class DataExample extends Activity {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
+                if(namesOfFoods == null){
+            		Toast.makeText(getApplicationContext(), "No results for searched food", Toast.LENGTH_LONG).show();
+            		return;
+            	}
                 pickFood();
             }
         };
@@ -197,6 +185,29 @@ public class DataExample extends Activity {
         		super.onPostExecute(result);
         		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number + "\nCalories: " + currFood.calories + "\nProtein: " + currFood.protein
         			+ "\nFat: " + currFood.fat + "\nCarbs: " + currFood.carbs + "\nSodium: " + currFood.sodium + "\nCholesterol: " + currFood.cholesterol);
+        		addButton.setEnabled(true);
+        		addButton.setOnClickListener(new OnClickListener(){
+
+        			@Override
+        			public void onClick(View v) {
+        				if(currFood == null)
+        					Toast.makeText(getApplicationContext(), "Please enter a food", Toast.LENGTH_LONG).show();
+        				else{
+        					Intent intent = new Intent(getApplicationContext(), MakeMealActivity.class);
+//        					Nutrition.addCalories(currFood.calories);
+//        	        		Nutrition.addCarbohydrates(currFood.carbs);
+//        	        		Nutrition.addCholesterol(currFood.cholesterol);
+//        	        		Nutrition.addFat(currFood.fat);
+//        	        		Nutrition.addProtein(currFood.protein);
+//        	        		Nutrition.addSodium(currFood.sodium);
+//        	        		Nutrition.foodNames.add(currFood.name);
+//        	        		Nutrition.foods.add(currFood);
+        	        		Nutrition.addFood(currFood);
+        					setResult(1, intent);
+        					finish();
+        				}
+        			}
+                });
         	}
         };
     }

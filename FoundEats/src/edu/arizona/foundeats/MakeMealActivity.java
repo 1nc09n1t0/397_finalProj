@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 public class MakeMealActivity extends Activity {
 	private ProgressBar caloriesBar;
@@ -15,6 +19,8 @@ public class MakeMealActivity extends Activity {
 	private ProgressBar sodiumBar;
 	private ProgressBar carbBar;
 	private ProgressBar proteinBar;
+	private Spinner foodSpinner;
+	private Button removeButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,8 @@ public class MakeMealActivity extends Activity {
 		sodiumBar = (ProgressBar) findViewById(R.id.progressSodium);
 		carbBar = (ProgressBar) findViewById(R.id.progressCarbs);
 		proteinBar = (ProgressBar) findViewById(R.id.progressProtein);
+		foodSpinner = (Spinner) findViewById(R.id.spinner1);
+		removeButton = (Button) findViewById(R.id.button2);
 
 		caloriesBar.setMax(Nutrition.getTotalCalories());
 		fatBar.setMax(Nutrition.getTotalFat());
@@ -34,6 +42,17 @@ public class MakeMealActivity extends Activity {
 		sodiumBar.setMax(Nutrition.getTotalSodium());
 		carbBar.setMax(Nutrition.getTotalCarbohydrates());
 		proteinBar.setMax(Nutrition.getTotalProtein());
+		
+		removeButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Nutrition.deleteFood(String.valueOf(foodSpinner.getSelectedItem()));
+				updateValues();
+			}
+			
+		});
+		
 	}
 
 	@Override
@@ -64,12 +83,20 @@ public class MakeMealActivity extends Activity {
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == FOOD_REQUEST){
-			caloriesBar.setProgress(Nutrition.getCalories());
-			fatBar.setProgress(Nutrition.getFat());
-			cholBar.setProgress(Nutrition.getCholesterol());
-			sodiumBar.setProgress(Nutrition.getSodium());
-			carbBar.setProgress(Nutrition.getCarbohydrates());
-			proteinBar.setProgress(Nutrition.getProtein());
+			updateValues();
 		}
+	}
+	
+	private void updateValues(){
+		caloriesBar.setProgress(Nutrition.getCalories());
+		fatBar.setProgress(Nutrition.getFat());
+		cholBar.setProgress(Nutrition.getCholesterol());
+		sodiumBar.setProgress(Nutrition.getSodium());
+		carbBar.setProgress(Nutrition.getCarbohydrates());
+		proteinBar.setProgress(Nutrition.getProtein());
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, Nutrition.getNames());
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		foodSpinner.setAdapter(dataAdapter);
 	}
 }
