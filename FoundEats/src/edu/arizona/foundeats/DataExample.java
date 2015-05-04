@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -37,12 +38,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DataExample extends Activity {
 
     HttpClient client;
     EditText searchText;
     Button searchButton;
+    Button addButton;
     List<String> namesOfFoods;
     List<String> nutrients;
     AlertDialog levelDialog;
@@ -57,10 +60,11 @@ public class DataExample extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_example);
-        Button submit = (Button)findViewById(R.id.bSearch);
+        searchButton = (Button)findViewById(R.id.bSearch);
+        addButton = (Button)findViewById(R.id.bAdd);
         searchText = (EditText)findViewById(R.id.etSearch);
         foodInfo = (TextView)findViewById(R.id.textFoodInfo);
-        submit.setOnClickListener(new OnClickListener(){
+        searchButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
@@ -68,6 +72,21 @@ public class DataExample extends Activity {
 				if(searchThis != null)
 					searchFood(searchThis);
 			}
+        });
+        
+        addButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if(currFood == null)
+					Toast.makeText(getApplicationContext(), "Please enter a food", Toast.LENGTH_LONG).show();
+				else{
+					Intent intent = new Intent(getApplicationContext(), MakeMealActivity.class);
+					setResult(1, intent);
+					finish();
+				}
+			}
+        	
         });
     }
 
@@ -189,6 +208,11 @@ public class DataExample extends Activity {
         	@Override
         	protected void onPostExecute(String result) {
         		super.onPostExecute(result);
+        		Nutrition.addCalories(currFood.calories);
+        		Nutrition.addCarbohydrates(currFood.carbs);
+        		Nutrition.addCholesterol(currFood.cholesterol);
+        		Nutrition.addFat(currFood.fat);
+        		Nutrition.addProtein(currFood.protein);
         		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number + "\nCalories: " + currFood.calories + "\nProtein: " + currFood.protein
         			+ "\nFat: " + currFood.fat + "\nCarbs: " + currFood.carbs + "\nSodium: " + currFood.sodium + "\nCholesterol: " + currFood.cholesterol);
         	}
