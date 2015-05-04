@@ -1,24 +1,12 @@
 package edu.arizona.foundeats;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -42,19 +29,18 @@ import android.widget.Toast;
 
 public class DataExample extends Activity {
 
-    HttpClient client;
-    EditText searchText;
-    Button searchButton;
-    Button addButton;
-    List<String> namesOfFoods;
-    List<String> nutrients;
-    AlertDialog levelDialog;
-    JSONObject json;
-    JSONObject json2;
-    int currInt;
-    TextView foodInfo;
-    FoodEntry currFood;
-    AsyncTask<String, Integer, String> myAsyncTask2;
+    private HttpClient client;
+    private EditText searchText;
+    private Button searchButton;
+    private Button addButton;
+    private List<String> namesOfFoods;
+    private AlertDialog levelDialog;
+    private JSONObject json;
+    private JSONObject json2;
+    private int currInt;
+    private TextView foodInfo;
+    private FoodEntry currFood;
+    private AsyncTask<String, Integer, String> myAsyncTask2;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +68,16 @@ public class DataExample extends Activity {
 					Toast.makeText(getApplicationContext(), "Please enter a food", Toast.LENGTH_LONG).show();
 				else{
 					Intent intent = new Intent(getApplicationContext(), MakeMealActivity.class);
+					Nutrition.addCalories(currFood.calories);
+	        		Nutrition.addCarbohydrates(currFood.carbs);
+	        		Nutrition.addCholesterol(currFood.cholesterol);
+	        		Nutrition.addFat(currFood.fat);
+	        		Nutrition.addProtein(currFood.protein);
+	        		Nutrition.foodNames.add(currFood.name);
 					setResult(1, intent);
 					finish();
 				}
 			}
-        	
         });
     }
 
@@ -131,9 +122,7 @@ public class DataExample extends Activity {
                         namesOfFoods = new ArrayList<String>();
                         for(int i = 0; i < json.getJSONObject("list").getJSONArray("item").length(); i++){
                         	namesOfFoods.add(i, json.getJSONObject("list").getJSONArray("item").getJSONObject(i).getString("name"));
-//                        	Log.d("item " + i + ": ", namesOfFoods.get(i));
                         }
-//                        Log.d("RESULT:", x);
                     }
                 }catch (JSONException e) {
                     Log.e("ERROR:", "This is not a valid JSON request");
@@ -150,7 +139,6 @@ public class DataExample extends Activity {
             }
         };
         myAsyncTask.execute();
-//        pickFood();
         
         myAsyncTask2 = new AsyncTask<String, Integer, String>(){
 
@@ -160,7 +148,6 @@ public class DataExample extends Activity {
         		try{
 
         			String requestString = "http://api.nal.usda.gov/usda/ndb/reports/?ndbno=" + currFood.number +"&api_key=KppbRe3Yt8JvTn9PNQLWQOf7K2aiYsVgiEyv2gRc";
-//        			String requestString = "http://api.nal.usda.gov/usda/ndb/reports/?ndbno=11987&api_key=KppbRe3Yt8JvTn9PNQLWQOf7K2aiYsVgiEyv2gRc";
         			java.net.URL url = new java.net.URL(requestString);
 
         			StringBuilder foodRequest = new StringBuilder();
@@ -208,12 +195,6 @@ public class DataExample extends Activity {
         	@Override
         	protected void onPostExecute(String result) {
         		super.onPostExecute(result);
-        		Nutrition.addCalories(currFood.calories);
-        		Nutrition.addCarbohydrates(currFood.carbs);
-        		Nutrition.addCholesterol(currFood.cholesterol);
-        		Nutrition.addFat(currFood.fat);
-        		Nutrition.addProtein(currFood.protein);
-        		Nutrition.foodNames.add(currFood.name);
         		foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number + "\nCalories: " + currFood.calories + "\nProtein: " + currFood.protein
         			+ "\nFat: " + currFood.fat + "\nCarbs: " + currFood.carbs + "\nSodium: " + currFood.sodium + "\nCholesterol: " + currFood.cholesterol);
         	}
