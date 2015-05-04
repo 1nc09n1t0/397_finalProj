@@ -163,7 +163,7 @@ public class DataExample extends Activity {
         				JSONArray nutrientArray = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients");
         				for(int i = 0; i < nutrientArray.length(); i++){
 //        					Log.d("", nutrientArray.getJSONObject(i).getInt("nutrient_id") + "");
-        					if(/*nutrientArray.getJSONObject(i).getInt("nutrient_id") == 208*/nutrientArray.getJSONObject(i).getString("nutrient_id").equals("208")){
+        					if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 208){
         						currFood.calories = nutrientArray.getJSONObject(i).getInt("value");
         					}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 203){
         						currFood.protein = nutrientArray.getJSONObject(i).getInt("value");
@@ -177,14 +177,6 @@ public class DataExample extends Activity {
         						currFood.cholesterol = nutrientArray.getJSONObject(i).getInt("value");
         					}
         				}
-        				// 1-calories, 2-protein, 3-fat, 4-carbs, 12-sodium, 30-cholesterol
-//        				currFood.calories = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(1).getInt("value");
-//        				currFood.protein = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(2).getInt("value");
-//        				currFood.fat = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(3).getInt("value");
-//        				currFood.carbs = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(4).getInt("value");
-//        				currFood.sodium = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(12).getInt("value");
-//        				currFood.cholesterol = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients").getJSONObject(30).getInt("value");
-//        				Log.d("Calories:", currFood.calories+"");
         			}
         		}catch (JSONException e) {
         			Log.e("ERROR:", "This is not a valid JSON request");
@@ -206,9 +198,6 @@ public class DataExample extends Activity {
     public void pickFood(){
     	String[] foodArray = new String[namesOfFoods.size()];
     	foodArray = namesOfFoods.toArray(foodArray);
-//    	for(int i = 0; i < foodArray.length; i++){
-//    		Log.d("Food " + i + ": ", foodArray[i]);
-//    	}
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select your food");
         builder.setSingleChoiceItems(foodArray, -1, null);
@@ -225,9 +214,7 @@ public class DataExample extends Activity {
 					currFood = new FoodEntry(currObj.getString("name"), currObj.getString("ndbno"));
 					foodInfo.setText(currFood.name+"\n" + "NDBNO: " +  currFood.number);
 					myAsyncTask2.execute();
-//					http://api.nal.usda.gov/usda/ndb/reports/?ndbno=11987&type=b&format=fjson&api_key=DEMO_KEY
 				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

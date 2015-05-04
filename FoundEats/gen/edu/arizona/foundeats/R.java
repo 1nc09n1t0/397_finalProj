@@ -465,11 +465,14 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f070018;
-        public static final int action_settings=0x7f070027;
+        public static final int action_settings=0x7f070036;
         public static final int adjust_height=0x7f070002;
         public static final int adjust_width=0x7f070001;
-        public static final int bSearch=0x7f070023;
+        public static final int bSearch=0x7f070032;
         public static final int book_now=0x7f070012;
+        public static final int button1=0x7f07002c;
+        public static final int button2=0x7f07002e;
+        public static final int button3=0x7f070030;
         public static final int button_Achievements=0x7f07001d;
         public static final int button_Challenge=0x7f07001f;
         public static final int button_DataExample=0x7f070020;
@@ -482,26 +485,38 @@ containing a value of this type.
         public static final int buy_with_google=0x7f070010;
         public static final int classic=0x7f070014;
         public static final int donate_with_google=0x7f070013;
-        public static final int etSearch=0x7f070022;
+        public static final int etSearch=0x7f070031;
         public static final int grayscale=0x7f070015;
         public static final int holo_dark=0x7f070007;
         public static final int holo_light=0x7f070008;
         public static final int hybrid=0x7f070006;
-        public static final int icon=0x7f070025;
-        public static final int label=0x7f070026;
-        public static final int map=0x7f070021;
+        public static final int icon=0x7f070034;
+        public static final int label=0x7f070035;
+        public static final int map=0x7f07002f;
         public static final int match_parent=0x7f07000e;
         public static final int monochrome=0x7f070016;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070003;
         public static final int production=0x7f070009;
+        public static final int progressCalories=0x7f070021;
+        public static final int progressCarbs=0x7f070029;
+        public static final int progressCholesterol=0x7f070025;
+        public static final int progressFat=0x7f070023;
+        public static final int progressProtein=0x7f07002b;
+        public static final int progressSodium=0x7f070027;
         public static final int sandbox=0x7f07000a;
         public static final int satellite=0x7f070004;
         public static final int selectionDetails=0x7f07000d;
+        public static final int spinner1=0x7f07002d;
         public static final int strict_sandbox=0x7f07000b;
         public static final int terrain=0x7f070005;
-        public static final int textFoodInfo=0x7f070024;
+        public static final int textFoodInfo=0x7f070033;
         public static final int textView1=0x7f070019;
+        public static final int textView2=0x7f070022;
+        public static final int textView3=0x7f070024;
+        public static final int textView4=0x7f070026;
+        public static final int textView5=0x7f070028;
+        public static final int textView6=0x7f07002a;
         public static final int webView1=0x7f070017;
         public static final int wrap_content=0x7f07000f;
     }
@@ -542,9 +557,14 @@ containing a value of this type.
     }
     public static final class string {
         public static final int accept=0x7f060002;
-        public static final int action_settings=0x7f060025;
+        public static final int action_settings=0x7f060026;
+        public static final int addFood=0x7f06003c;
         public static final int app_name=0x7f060023;
-        public static final int button_DataExample=0x7f060030;
+        public static final int breakfast=0x7f060034;
+        public static final int button_DataExample=0x7f060031;
+        public static final int calories=0x7f060036;
+        public static final int carbohydrates=0x7f06003a;
+        public static final int cholesterol=0x7f060038;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f060009;
@@ -647,19 +667,27 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f060005;
         public static final int create_calendar_title=0x7f060004;
         public static final int decline=0x7f060003;
-        public static final int hello_world=0x7f060024;
+        public static final int desc=0x7f060024;
+        public static final int dinner=0x7f060032;
+        public static final int fat=0x7f060037;
+        public static final int hello_world=0x7f060025;
+        public static final int lunch=0x7f060033;
+        public static final int mealChoice=0x7f060035;
+        public static final int protein=0x7f06003b;
+        public static final int removeFood=0x7f06003d;
+        public static final int sodium=0x7f060039;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
-        public static final int title_activity_achievements=0x7f06002b;
-        public static final int title_activity_challenge=0x7f060026;
-        public static final int title_activity_food=0x7f06002c;
-        public static final int title_activity_how_to_play=0x7f060029;
-        public static final int title_activity_make_meal=0x7f06002a;
-        public static final int title_activity_map=0x7f060027;
-        public static final int title_activity_meal_plan=0x7f06002f;
-        public static final int title_activity_pick_old_meal=0x7f06002e;
-        public static final int title_activity_score=0x7f06002d;
-        public static final int title_activity_type_of_meal=0x7f060028;
+        public static final int title_activity_achievements=0x7f06002c;
+        public static final int title_activity_challenge=0x7f060027;
+        public static final int title_activity_food=0x7f06002d;
+        public static final int title_activity_how_to_play=0x7f06002a;
+        public static final int title_activity_make_meal=0x7f06002b;
+        public static final int title_activity_map=0x7f060028;
+        public static final int title_activity_meal_plan=0x7f060030;
+        public static final int title_activity_pick_old_meal=0x7f06002f;
+        public static final int title_activity_score=0x7f06002e;
+        public static final int title_activity_type_of_meal=0x7f060029;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
