@@ -1,6 +1,7 @@
 package edu.arizona.foundeats;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,14 +55,25 @@ public class MakeMealActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void addFood(View view) {
-		Nutrition.addFat(5);
+	static final int FOOD_REQUEST = 1;
 
-		caloriesBar.setProgress(Nutrition.getCalories());
-		fatBar.setProgress(Nutrition.getFat());
-		cholBar.setProgress(Nutrition.getCholesterol());
-		sodiumBar.setProgress(Nutrition.getSodium());
-		carbBar.setProgress(Nutrition.getCarbohydrates());
-		proteinBar.setProgress(Nutrition.getProtein());
+	public void addFood(View view) {
+		Intent intent = new Intent(getApplicationContext(), DataExample.class);
+		startActivityForResult(intent, FOOD_REQUEST);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Check which request we're responding to
+		if (requestCode == FOOD_REQUEST) {
+			// Make sure the request was successful
+			if (resultCode == RESULT_OK) {
+				caloriesBar.setProgress(Nutrition.getCalories());
+				fatBar.setProgress(Nutrition.getFat());
+				cholBar.setProgress(Nutrition.getCholesterol());
+				sodiumBar.setProgress(Nutrition.getSodium());
+				carbBar.setProgress(Nutrition.getCarbohydrates());
+				proteinBar.setProgress(Nutrition.getProtein());
+			}
+		}
 	}
 }
