@@ -24,11 +24,11 @@ public class Nutrition {
 
 	public static void newBreakfast() {
 		foods = new ArrayList<FoodEntry>();
-		totalCalories = 20;
-		totalFat = 20;
-		totalCholesterol = 20;
-		totalSodium = 20;
-		totalCarbohydrates = 20;
+		totalCalories = 350;
+		totalFat = 10;
+		totalCholesterol = 100;
+		totalSodium = 400;
+		totalCarbohydrates = 40;
 		totalProtein = 20;
 		calories = 0;
 		fat = 0;
@@ -40,12 +40,12 @@ public class Nutrition {
 
 	public static void newLunch() {
 		foods = new ArrayList<FoodEntry>();
-		totalCalories = 0;
-		totalFat = 0;
-		totalCholesterol = 0;
-		totalSodium = 0;
-		totalCarbohydrates = 0;
-		totalProtein = 0;
+		totalCalories = 400;
+		totalFat = 20;
+		totalCholesterol = 100;
+		totalSodium = 600;
+		totalCarbohydrates = 40;
+		totalProtein = 18;
 		calories = 0;
 		fat = 0;
 		cholesterol = 0;
@@ -56,12 +56,12 @@ public class Nutrition {
 
 	public static void newDinner() {
 		foods = new ArrayList<FoodEntry>();
-		totalCalories = 0;
-		totalFat = 0;
-		totalCholesterol = 0;
-		totalSodium = 0;
-		totalCarbohydrates = 0;
-		totalProtein = 0;
+		totalCalories = 500;
+		totalFat = 30;
+		totalCholesterol = 100;
+		totalSodium = 800;
+		totalCarbohydrates = 40;
+		totalProtein = 16;
 		calories = 0;
 		fat = 0;
 		cholesterol = 0;

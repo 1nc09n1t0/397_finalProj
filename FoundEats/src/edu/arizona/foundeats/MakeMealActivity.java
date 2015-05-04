@@ -11,8 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MakeMealActivity extends Activity {
+	private TextView calText;
+	private TextView fatText;
+	private TextView choText;
+	private TextView sodText;
+	private TextView carText;
+	private TextView proText;
 	private ProgressBar caloriesBar;
 	private ProgressBar fatBar;
 	private ProgressBar cholBar;
@@ -26,6 +33,20 @@ public class MakeMealActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_make_meal);
+
+		calText = (TextView) findViewById(R.id.calText);
+		fatText = (TextView) findViewById(R.id.fatText);
+		choText = (TextView) findViewById(R.id.choText);
+		sodText = (TextView) findViewById(R.id.sodText);
+		carText = (TextView) findViewById(R.id.carText);
+		proText = (TextView) findViewById(R.id.proText);
+
+		calText.setText("Calories 0/" + Nutrition.getTotalCalories());
+		fatText.setText("Fat 0/" + Nutrition.getTotalFat());
+		choText.setText("Cholesterol 0/" + Nutrition.getTotalCholesterol());
+		sodText.setText("Sodium 0/" + Nutrition.getTotalSodium());
+		carText.setText("Carbohydrates 0/" + Nutrition.getTotalCarbohydrates());
+		proText.setText("Protein 0/" + Nutrition.getTotalProtein());
 
 		caloriesBar = (ProgressBar) findViewById(R.id.progressCalories);
 		fatBar = (ProgressBar) findViewById(R.id.progressFat);
@@ -42,17 +63,17 @@ public class MakeMealActivity extends Activity {
 		sodiumBar.setMax(Nutrition.getTotalSodium());
 		carbBar.setMax(Nutrition.getTotalCarbohydrates());
 		proteinBar.setMax(Nutrition.getTotalProtein());
-		
-		removeButton.setOnClickListener(new OnClickListener(){
+
+		removeButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Nutrition.deleteFood(String.valueOf(foodSpinner.getSelectedItem()));
 				updateValues();
 			}
-			
+
 		});
-		
+
 	}
 
 	@Override
@@ -82,21 +103,31 @@ public class MakeMealActivity extends Activity {
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode == FOOD_REQUEST){
+		if (resultCode == FOOD_REQUEST) {
 			updateValues();
 		}
 	}
-	
-	private void updateValues(){
+
+	private void updateValues() {
+		calText.setText("Calories " + Nutrition.getCalories() + "/" + Nutrition.getTotalCalories());
+		fatText.setText("Fat " + Nutrition.getFat() + "/" + Nutrition.getTotalFat());
+		choText.setText("Cholesterol " + Nutrition.getCholesterol() + "/" + Nutrition.getTotalCholesterol());
+		sodText.setText("Sodium " + Nutrition.getSodium() + "/" + Nutrition.getTotalSodium());
+		carText.setText("Carbohydrates " + Nutrition.getCarbohydrates() + "/" + Nutrition.getTotalCarbohydrates());
+		proText.setText("Protein " + Nutrition.getProtein() + "/" + Nutrition.getTotalProtein());
+
 		caloriesBar.setProgress(Nutrition.getCalories());
 		fatBar.setProgress(Nutrition.getFat());
 		cholBar.setProgress(Nutrition.getCholesterol());
 		sodiumBar.setProgress(Nutrition.getSodium());
 		carbBar.setProgress(Nutrition.getCarbohydrates());
 		proteinBar.setProgress(Nutrition.getProtein());
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, Nutrition.getNames());
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Nutrition.getNames());
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		foodSpinner.setAdapter(dataAdapter);
+	}
+	
+	public void finished(View view){
+		//Create new activity to show score!
 	}
 }

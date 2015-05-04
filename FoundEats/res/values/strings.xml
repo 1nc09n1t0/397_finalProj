@@ -28,5 +28,6 @@
     <string name="protein">Protein</string>
     <string name="addFood">Add Food</string>
     <string name="removeFood">Remove Food</string>
+    <string name="finished">Finished!</string>
 
 </resources>
