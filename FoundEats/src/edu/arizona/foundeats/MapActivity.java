@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -21,15 +22,28 @@ import com.google.android.gms.maps.model.LatLng;
 public class MapActivity extends Activity {
 	static final LatLng TUCSON = new LatLng(32.221743, -110.926479);
 	private GoogleMap map;
+	private GoogleApiClient mGoogleApiClient;
 	private DataHelper dh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-		dh = new DataHelper(this); 
+		dh = new DataHelper(this);
+	/*	
+		 mGoogleApiClient = new GoogleApiClient
+		            .Builder(this)
+		            .addApi(Places.GEO_DATA_API)
+		            .addApi(Places.PLACE_DETECTION_API)
+		            .addConnectionCallbacks(this)
+		            .addOnConnectionFailedListener(this)
+		            .build();
+		*/
+
+		
 		
 		final Geocoder coder = new Geocoder(getApplicationContext());
+		
 		 map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 			        .getMap();
 		 if (map!=null){
