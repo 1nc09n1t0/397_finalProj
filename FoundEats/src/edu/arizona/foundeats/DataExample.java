@@ -19,8 +19,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -53,9 +51,10 @@ public class DataExample extends Activity {
     private FoodEntry currFood;
     private AsyncTask<String, Integer, String> myAsyncTask2;
     private ArrayList<String> unitArray;
-    private int scale;
-    String[] numArray;
-    private int currPos;
+    private double scale;
+    double[] numArray;
+    private String[] quantityArray;
+    private int currPosMeas;
     
     
     @Override
@@ -66,12 +65,13 @@ public class DataExample extends Activity {
         addButton = (Button)findViewById(R.id.bAdd);
         searchText = (EditText)findViewById(R.id.etSearch);
         quantitySpinner = (Spinner)findViewById(R.id.quantitySpinner);
-        numArray = new String[50];
+        numArray = new double[50];
         for(int j = 0; j < numArray.length; j++)
-        	numArray[j] = "" + (int)(j+1);
+        	numArray[j] = j+1.0;
+        quantityArray = new String[50];
         foodInfo = (TextView)findViewById(R.id.textFoodInfo);
         unitSpinner = (Spinner)findViewById(R.id.unitSpinner);
-        currPos = 0;
+        currPosMeas = 0;
         searchButton.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -180,8 +180,9 @@ public class DataExample extends Activity {
         				nutrientArray = json2.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients");
         				for(int i = 0; i < nutrientArray.getJSONObject(1).getJSONArray("measures").length(); i++){
         					unitArray.add(i, nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(i).getString("label"));
+//        					quantityArray[i] = "" + numArray[i]*nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(i).getDouble("qty");
         				}
-        				setNutritionValues(nutrientArray, currPos);
+        				setNutritionValues();
         			}
         		}catch (JSONException e) {
         			Log.e("ERROR:", "This is not a valid JSON request");
@@ -194,9 +195,18 @@ public class DataExample extends Activity {
         	@Override
         	protected void onPostExecute(String result) {
         		super.onPostExecute(result);
+        		InputMethodManager imm = (InputMethodManager)getSystemService(
+        			      Context.INPUT_METHOD_SERVICE);
+        			imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
         		updateText();
         		updateSpinner();
-        		setQuantitySpinner();
+        		try {
+					setQuantitySpinner();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//        		setScale(quantitySpinner.getSelectedItemPosition()+1);
         		setSpinnerListener();
         		updateQuantitySpinner();
         		addButton.setEnabled(true);
@@ -231,8 +241,11 @@ public class DataExample extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				try {
-					currPos = position;
-					setNutritionValues(nutrientArray, currPos);
+					currPosMeas = position;
+//					setScale(quantitySpinner.getSelectedItemPosition()+1);
+					setQuantitySpinner();
+//					updateQuantitySpinner();
+					setNutritionValues();
 					updateText();
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -245,8 +258,19 @@ public class DataExample extends Activity {
     	});
     }
     
-    private void setQuantitySpinner(){
-    	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, numArray);
+//    private void setScale(){
+//		try {
+//			scale = nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("qty");
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    }
+    
+    private void setQuantitySpinner() throws JSONException{
+    	for(int i = 0; i < quantityArray.length; i++)
+			quantityArray[i] = ((double)(i+1)*nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("qty"))+"";
+    	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, quantityArray);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		quantitySpinner.setAdapter(dataAdapter);
     }
@@ -258,8 +282,9 @@ public class DataExample extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				try {
-					scale = (position+1);
-					setNutritionValues(nutrientArray, currPos);
+//					currPosMeas = position;
+					scale = position+1;
+					setNutritionValues();
 					updateText();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -277,20 +302,20 @@ public class DataExample extends Activity {
     			+ "\nFat: " + currFood.fat + "\nCarbs: " + currFood.carbs + "\nSodium: " + currFood.sodium + "\nCholesterol: " + currFood.cholesterol);
     }
     
-    private void setNutritionValues(JSONArray nutrientArray, int position) throws JSONException{
+    private void setNutritionValues() throws JSONException{
     	for(int i = 0; i < nutrientArray.length(); i++){
 			if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 208){
-				currFood.calories = nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(position).getInt("value")*scale;
+				currFood.calories = (int) (nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("value")*scale);
 			}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 203){
-				currFood.protein = nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(position).getInt("value")*scale;
+				currFood.protein = (int) (nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("value")*scale);
 			}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 204){
-				currFood.fat = nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(position).getInt("value")*scale;
+				currFood.fat = (int) (nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("value")*scale);
 			}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 205){
-				currFood.carbs = nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(position).getInt("value")*scale;
+				currFood.carbs = (int) (nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("value")*scale);
 			}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 307){
-				currFood.sodium = nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(position).getInt("value")*scale;
+				currFood.sodium = (int) (nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("value")*scale);
 			}else if(nutrientArray.getJSONObject(i).getInt("nutrient_id") == 601){
-				currFood.cholesterol = nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(position).getInt("value")*scale;
+				currFood.cholesterol = (int) (nutrientArray.getJSONObject(i).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("value")*scale);
 			}
 		}
     }
