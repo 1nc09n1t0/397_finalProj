@@ -33,7 +33,7 @@ public class ScoreActivity extends Activity {
 		int made = Nutrition.getCarbohydrates();
 		if (allowed < made)
 			return ((made - allowed)*-5);
-		return ((allowed-made)*10);
+		return ((allowed-made)*5);
 	}
 	
 	private int scoreCal() {
@@ -41,7 +41,7 @@ public class ScoreActivity extends Activity {
 		int made = Nutrition.getCalories();
 		if (allowed < made)
 			return ((made - allowed)*-5);
-		return ((allowed-made)*10);
+		return ((allowed-made)*5);
 	}
 	
 	private int scoreCho() {
@@ -49,7 +49,7 @@ public class ScoreActivity extends Activity {
 		int made = Nutrition.getCholesterol();
 		if (allowed < made)
 			return ((made - allowed)*-5);
-		return ((allowed-made)*10);
+		return ((allowed-made)*5);
 	}
 	
 	private int scoreFat() {
@@ -57,7 +57,7 @@ public class ScoreActivity extends Activity {
 		int made = Nutrition.getFat();
 		if (allowed < made)
 			return ((made - allowed)*-5);
-		return ((allowed-made)*10);
+		return ((allowed-made)*5);
 	}
 	
 	private int scoreSod() {
@@ -65,15 +65,15 @@ public class ScoreActivity extends Activity {
 		int made = Nutrition.getSodium();
 		if (allowed < made)
 			return ((made - allowed)*-5);
-		return ((allowed-made)*10);
+		return ((allowed-made)*5);
 	}
 	
 	private int scorePro() {
 		int allowed = Nutrition.getTotalSodium();
 		int made = Nutrition.getSodium();
 		if (allowed < made)
-			return (made*10);
-		return (made*5);
+			return (made*5);
+		return (made*3);
 	}
 
 	@Override
