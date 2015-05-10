@@ -14,9 +14,12 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,6 +58,8 @@ public class DataExample extends Activity {
     double[] numArray;
     private String[] quantityArray;
     private int currPosMeas;
+    private ProgressDialog waitDialog1;
+    private ProgressDialog waitDialog2;
     
     
     @Override
@@ -77,12 +82,17 @@ public class DataExample extends Activity {
 			@Override
 			public void onClick(View v) {
 				String searchThis = searchText.getText().toString();
-				addButton.setEnabled(false);
 				scale = 1;
-				if(searchThis != null)
+				ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+				boolean isWifiConn = ni.isConnected();
+				
+				ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+				boolean isMobileConn = ni.isConnected();
+				if(isWifiConn || isMobileConn)
 					searchFood(searchThis);
 				else
-					Toast.makeText(getApplicationContext(), "Please enter a food", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Please connect to the internet", Toast.LENGTH_LONG).show();
 			}
         });
     }
@@ -98,6 +108,11 @@ public class DataExample extends Activity {
 
         AsyncTask<String, Integer, String> myAsyncTask = new AsyncTask<String, Integer, String>()
         {
+        	
+        	@Override
+    		protected void onPreExecute() {
+    			waitDialog1 = ProgressDialog.show(DataExample.this, "Please wait", "Searching for foods");
+    		}
 
             @Override
             protected String doInBackground(String... params) {
@@ -141,6 +156,7 @@ public class DataExample extends Activity {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
+                waitDialog1.dismiss();
                 if(namesOfFoods == null){
             		Toast.makeText(getApplicationContext(), "No results for searched food", Toast.LENGTH_LONG).show();
             		return;
@@ -152,6 +168,11 @@ public class DataExample extends Activity {
         
         myAsyncTask2 = new AsyncTask<String, Integer, String>(){
 
+        	@Override
+    		protected void onPreExecute() {
+    			waitDialog2 = ProgressDialog.show(DataExample.this, "Please wait", "Retrieving nutrition information");
+    		}
+        	
         	@Override
         	protected String doInBackground(String... params) {
 
@@ -196,6 +217,7 @@ public class DataExample extends Activity {
         	@Override
         	protected void onPostExecute(String result) {
         		super.onPostExecute(result);
+        		waitDialog2.dismiss();
         		InputMethodManager imm = (InputMethodManager)getSystemService(
         			      Context.INPUT_METHOD_SERVICE);
         			imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
@@ -204,13 +226,10 @@ public class DataExample extends Activity {
         		try {
 					setQuantitySpinner();
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//        		setScale(quantitySpinner.getSelectedItemPosition()+1);
         		setSpinnerListener();
         		updateQuantitySpinner();
-        		addButton.setEnabled(true);
         		addButton.setOnClickListener(new OnClickListener(){
 
         			@Override
@@ -247,9 +266,7 @@ public class DataExample extends Activity {
 					int position, long id) {
 				try {
 					currPosMeas = position;
-//					setScale(quantitySpinner.getSelectedItemPosition()+1);
 					setQuantitySpinner();
-//					updateQuantitySpinner();
 					setNutritionValues();
 					updateText();
 				} catch (JSONException e) {
@@ -262,15 +279,6 @@ public class DataExample extends Activity {
     		
     	});
     }
-    
-//    private void setScale(){
-//		try {
-//			scale = nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(currPosMeas).getDouble("qty");
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//    }
     
     private void setQuantitySpinner() throws JSONException{
     	for(int i = 0; i < quantityArray.length; i++)
@@ -287,7 +295,6 @@ public class DataExample extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				try {
-//					currPosMeas = position;
 					scale = position+1;
 					setNutritionValues();
 					updateText();
@@ -348,7 +355,15 @@ public class DataExample extends Activity {
 					e1.printStackTrace();
 				}
 			}
-        });
+        })
+        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         levelDialog = builder.create();
         levelDialog.show();
     }
