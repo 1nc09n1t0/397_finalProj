@@ -35,6 +35,7 @@ public class DataHelper {
 	private static final String CARBS = "carbs";
 	private static final String FAT = "fat";
 	private static final String PROTEIN = "protein";
+	
 
 	/*
 	 * getCompletedAchievements
@@ -124,6 +125,26 @@ public class DataHelper {
 		list.add(cursor.getString(2));
 		if (cursor != null && !cursor.isClosed())
 			cursor.close();
+		return list;
+	}
+	
+	public List<String> getScore() {
+		List<String> list = new ArrayList<String>();
+		Cursor cursor = this.db.query(MEALTABLE, new String[] { ACHIEVEMENT, DATE, SCORE, MEAL }, null, null, null, null, null);
+		if (cursor.getCount() > 0) {
+			if (cursor.moveToFirst()) {
+				do {
+					String line = "";
+					line += "Date: " + cursor.getString(1);
+					line += "\nScore:" + cursor.getString(2);
+					line += "\nAchievements: " + cursor.getString(0);
+					line += "\nMeal: " + cursor.getString(3);
+					list.add(line);
+				} while (cursor.moveToNext());
+			}
+			if (cursor != null && !cursor.isClosed())
+				cursor.close();
+		}
 		return list;
 	}
 

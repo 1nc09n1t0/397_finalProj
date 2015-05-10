@@ -1,16 +1,35 @@
 package edu.arizona.foundeats;
 
+import java.util.List;
+
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class MealPlanActivity extends ListActivity {
+	DataHelper dh;
+	private List<String> names;
+	private ArrayAdapter<String> adapter;
+	private ListView lv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meal_plan);
+		
+		dh = new DataHelper(this);
+
+		names = dh.getScore();
+		adapter = new ArrayAdapter<String>(this, R.layout.list_item, dh.getScore());
+		setListAdapter(adapter);
+		lv = getListView();
+		lv.setTextFilterEnabled(true);
+		if (names.size() == 0)
+			Toast.makeText(getApplicationContext(), "No patients to display", Toast.LENGTH_LONG).show();
 	}
 
 	@Override

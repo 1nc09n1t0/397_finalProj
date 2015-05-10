@@ -29,13 +29,18 @@ public class ScoreActivity extends Activity {
 		TextView text = (TextView) findViewById(R.id.scoreText);
 
 		text.setText("Your Score: " + score);
-		
+
 		DataHelper dh = new DataHelper(this);
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		Date date = new Date();
 
-		dh.addMeal("No Achievment", dateFormat.format(date).toString(), score, Nutrition.foods.toString());
+		String food = "";
+		for (String item : Nutrition.getNames()) {
+			food += " - " + item + "\n";
+		}
+
+		dh.addMeal("No Achievment", dateFormat.format(date).toString(), score, food);
 
 	}
 
@@ -43,48 +48,48 @@ public class ScoreActivity extends Activity {
 		int allowed = Nutrition.getTotalCarbohydrates();
 		int made = Nutrition.getCarbohydrates();
 		if (allowed < made)
-			return ((made - allowed)*-5);
-		return ((allowed-made)*5);
+			return ((made - allowed) * -5);
+		return ((allowed - made) * 5);
 	}
-	
+
 	private int scoreCal() {
 		int allowed = Nutrition.getTotalCalories();
 		int made = Nutrition.getCalories();
 		if (allowed < made)
-			return ((made - allowed)*-5);
-		return ((allowed-made)*5);
+			return ((made - allowed) * -5);
+		return ((allowed - made) * 5);
 	}
-	
+
 	private int scoreCho() {
 		int allowed = Nutrition.getTotalCholesterol();
 		int made = Nutrition.getCholesterol();
 		if (allowed < made)
-			return ((made - allowed)*-5);
-		return ((allowed-made)*5);
+			return ((made - allowed) * -5);
+		return ((allowed - made) * 5);
 	}
-	
+
 	private int scoreFat() {
 		int allowed = Nutrition.getTotalFat();
 		int made = Nutrition.getFat();
 		if (allowed < made)
-			return ((made - allowed)*-5);
-		return ((allowed-made)*5);
+			return ((made - allowed) * -5);
+		return ((allowed - made) * 5);
 	}
-	
+
 	private int scoreSod() {
 		int allowed = Nutrition.getTotalSodium();
 		int made = Nutrition.getSodium();
 		if (allowed < made)
-			return ((made - allowed)*-5);
-		return ((allowed-made)*5);
+			return ((made - allowed) * -5);
+		return ((allowed - made) * 5);
 	}
-	
+
 	private int scorePro() {
 		int allowed = Nutrition.getTotalSodium();
 		int made = Nutrition.getSodium();
 		if (allowed < made)
-			return (made*5);
-		return (made*3);
+			return (made * 5);
+		return (made * 3);
 	}
 
 	@Override
