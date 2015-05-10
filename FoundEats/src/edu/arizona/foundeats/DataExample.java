@@ -181,6 +181,7 @@ public class DataExample extends Activity {
         				for(int i = 0; i < nutrientArray.getJSONObject(1).getJSONArray("measures").length(); i++){
         					unitArray.add(i, nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(i).getString("label"));
 //        					quantityArray[i] = "" + numArray[i]*nutrientArray.getJSONObject(1).getJSONArray("measures").getJSONObject(i).getDouble("qty");
+        					Log.d("MEASUREMENTS:", unitArray.get(i));
         				}
         				setNutritionValues();
         			}
@@ -229,9 +230,13 @@ public class DataExample extends Activity {
     }
 
     private void updateSpinner(){
-    	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitArray);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		unitSpinner.setAdapter(dataAdapter);
+    	if(unitArray.isEmpty())
+    		Log.d("UNIT ARRAY STATUS:", "EMPTY UNIT ARRAY");
+    	else{
+	    	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitArray);
+			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			unitSpinner.setAdapter(dataAdapter);
+    	}
     }
     
     private void setSpinnerListener(){
