@@ -2,33 +2,44 @@ package edu.arizona.foundeats;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-public class MapActivity extends Activity {
+/**
+ * 
+ * @author 1nc09_000, Kris Cabulong
+ *
+ * TODO:
+ * 1) Get list of nearby grocery stores
+ * 2) On each snippet, show address, how far away they are from user, how many times they've been visited
+ * 3) ...
+ *
+ */
+public class MapActivity extends Activity implements LocationListener {
 	static final LatLng TUCSON = new LatLng(32.221743, -110.926479);
 	private GoogleMap map;
-	private GoogleApiClient mGoogleApiClient;
+//	private GoogleApiClient mGoogleApiClient;
 	private DataHelper dh;
-	private Marker currLoc;
+//	private Marker currLoc;
+	GoogleMap googleMap;
+	private int PROXIMITY_RADIUS = 5000;
 	
 	private GoogleMap.OnMyLocationChangeListener currLocChangeListener = new GoogleMap.OnMyLocationChangeListener() {
 		
@@ -53,8 +64,31 @@ public class MapActivity extends Activity {
 		setContentView(R.layout.activity_map);
 		dh = new DataHelper(this);
 		
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		Criteria criteria = new Criteria();
+		String bestProvider = locationManager.getBestProvider(criteria, true);
+		Location location = locationManager.getLastKnownLocation(bestProvider);
+		if (location != null){
+			onLocationChanged(location);
+		}
+		locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
+	
+		StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+//		googlePlacesUrl.append("location=" + latitude + "," + longitude);
+//        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
+//        googlePlacesUrl.append("&types=" + type);
+        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + "AIzaSyCTe8U5vrGGBPJ_x1Nq8RovEBLAQC0OeBY");
+
+        GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
+        Object[] toPass = new Object[2];
+        toPass[0] = googleMap;
+        toPass[1] = googlePlacesUrl.toString();
+        googlePlacesReadTask.execute(toPass);
 		
-	/*	
+		
+		
+		/*	
 		 mGoogleApiClient = new GoogleApiClient
 		            .Builder(this)
 		            .addApi(Places.GEO_DATA_API)
@@ -79,15 +113,15 @@ public class MapActivity extends Activity {
 		 Location myLocation = map.getMyLocation();
 		 
 		 //Location currentLocation = locationManager.getLastKnownLocation("gps"); 
-
-		 if (myLocation != null)
-		 {
-			double currLat = myLocation.getLatitude();
-			double currLon = myLocation.getLongitude();
-			LatLng currGPS = new LatLng(currLat, currLon);
-		 
-			//currLoc = map.addMarker(new MarkerOptions().position(currGPS));
-		 }
+//
+//		 if (myLocation != null)
+//		 {
+//			double currLat = myLocation.getLatitude();
+//			double currLon = myLocation.getLongitude();
+//			LatLng currGPS = new LatLng(currLat, currLon);
+//		 
+//			//currLoc = map.addMarker(new MarkerOptions().position(currGPS));
+//		 }
 
 
 		 
@@ -195,5 +229,33 @@ public class MapActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
 	}
 }
