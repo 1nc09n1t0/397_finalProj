@@ -128,6 +128,7 @@ public class MakeMealActivity extends Activity {
 	}
 	
 	public void finished(View view){
-		//Create new activity to show score!
+		Intent intent = new Intent(getApplicationContext(),ScoreActivity.class);
+		startActivity(intent);
 	}
 }
