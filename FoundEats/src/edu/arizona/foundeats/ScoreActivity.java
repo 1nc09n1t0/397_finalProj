@@ -12,19 +12,68 @@ public class ScoreActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_score);
-		
-		int score = 0;
-		
-		score += (Nutrition.getTotalCarbohydrates() - Nutrition.getCarbohydrates()) * 10;
-		score += (Nutrition.getTotalCalories() - Nutrition.getCalories()) * 10;
-		score += (Nutrition.getTotalCholesterol() - Nutrition.getTotalCarbohydrates()) * 10;
-		score += (Nutrition.getTotalFat() - Nutrition.getFat()) * 10;
-		score += Nutrition.getTotalProtein() * 10;
-		score += (Nutrition.getTotalSodium() - Nutrition.getSodium()) * 10;
-		
-//		TextView text = (TextView) findViewById(R.id.scoreText);
-		
 
+		int score = 0;
+
+		score += scoreCarbs();
+		score += scoreCal();
+		score += scoreCho();
+		score += scoreFat();
+		score += scorePro();
+		score += scoreSod();
+
+		TextView text = (TextView) findViewById(R.id.scoreText);
+
+		text.setText("Your Score: " + score);
+
+	}
+
+	private int scoreCarbs() {
+		int allowed = Nutrition.getTotalCarbohydrates();
+		int made = Nutrition.getCarbohydrates();
+		if (allowed < made)
+			return ((made - allowed)*-5);
+		return ((allowed-made)*10);
+	}
+	
+	private int scoreCal() {
+		int allowed = Nutrition.getTotalCalories();
+		int made = Nutrition.getCalories();
+		if (allowed < made)
+			return ((made - allowed)*-5);
+		return ((allowed-made)*10);
+	}
+	
+	private int scoreCho() {
+		int allowed = Nutrition.getTotalCholesterol();
+		int made = Nutrition.getCholesterol();
+		if (allowed < made)
+			return ((made - allowed)*-5);
+		return ((allowed-made)*10);
+	}
+	
+	private int scoreFat() {
+		int allowed = Nutrition.getTotalFat();
+		int made = Nutrition.getFat();
+		if (allowed < made)
+			return ((made - allowed)*-5);
+		return ((allowed-made)*10);
+	}
+	
+	private int scoreSod() {
+		int allowed = Nutrition.getTotalSodium();
+		int made = Nutrition.getSodium();
+		if (allowed < made)
+			return ((made - allowed)*-5);
+		return ((allowed-made)*10);
+	}
+	
+	private int scorePro() {
+		int allowed = Nutrition.getTotalSodium();
+		int made = Nutrition.getSodium();
+		if (allowed < made)
+			return (made*10);
+		return (made*5);
 	}
 
 	@Override
