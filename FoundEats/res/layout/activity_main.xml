@@ -31,10 +31,10 @@
         android:text="Type Of Meal" />
 
     <Button
-        android:id="@+id/button_MealPlan"
+        android:id="@+id/button_Scores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Plan Meal" />
+        android:text="Scores" />
 
     <Button
         android:id="@+id/button_Achievements"
@@ -47,17 +47,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Map" />
-
-    <Button
-        android:id="@+id/button_Challenge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Challenge" />
-
-    <Button
-        android:id="@+id/button_DataExample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_DataExample" />
 
 </LinearLayout>
