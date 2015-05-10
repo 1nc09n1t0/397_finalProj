@@ -1,5 +1,9 @@
 package edu.arizona.foundeats;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +29,13 @@ public class ScoreActivity extends Activity {
 		TextView text = (TextView) findViewById(R.id.scoreText);
 
 		text.setText("Your Score: " + score);
+		
+		DataHelper dh = new DataHelper(this);
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date = new Date();
+
+		dh.addMeal("No Achievment", dateFormat.format(date).toString(), score, Nutrition.foods.toString());
 
 	}
 

@@ -28,7 +28,6 @@ public class DataHelper {
 	private static final String SCORE = "score";
 	private static final String MEAL = "meal";
 	private static final String LOCATION = "location";
-	private static final String COST = "cost";
 	private static final String REQUIREMENT = "requirement";
 	
 	private static final String FOOD = "food";
@@ -118,13 +117,11 @@ public class DataHelper {
 	public List<String> getScore(String meal) {
 		List<String> list = new ArrayList<String>();
 		list.add(meal);
-		Cursor cursor = this.db.query(MEALTABLE, new String[] { ACHIEVEMENT, DATE, SCORE, LOCATION, COST }, "meal = ?", new String[] { meal }, null, null, null);
+		Cursor cursor = this.db.query(MEALTABLE, new String[] { ACHIEVEMENT, DATE, SCORE }, "meal = ?", new String[] { meal }, null, null, null);
 		cursor.moveToFirst();
 		list.add(cursor.getString(0));
 		list.add(cursor.getString(1));
 		list.add(cursor.getString(2));
-		list.add(cursor.getString(3));
-		list.add(cursor.getString(4));
 		if (cursor != null && !cursor.isClosed())
 			cursor.close();
 		return list;
@@ -138,18 +135,14 @@ public class DataHelper {
 	 * - String date of day meal was made
 	 * - int score of meal
 	 * - String meal contains all items used to create meal
-	 * - String location is address of where meal was made
-	 * - int Cost is approximate cost of the meal
 	 * Output: - None
 	 */
-	public void addMeal(String achievements, String date, int score, String meal, String location, int cost) {
+	public void addMeal(String achievements, String date, int score, String meal) {
 		ContentValues values = new ContentValues();
 		values.put(ACHIEVEMENT, achievements);
 		values.put(DATE, date);
 		values.put(SCORE, score);
 		values.put(MEAL, meal);
-		values.put(LOCATION, location);
-		values.put(COST, cost);
 		db.insert(MEALTABLE, null, values);
 	}
 
@@ -249,7 +242,7 @@ public class DataHelper {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL("CREATE TABLE " + ACHIEVEMENTSTABLE + "(achievement text not null, count integer not null, requirement text not null)");
-			db.execSQL("CREATE TABLE " + MEALTABLE + "(achievement text not null, date text not null, score integer not null, meal text not null, location text not null, cost integer not null)");
+			db.execSQL("CREATE TABLE " + MEALTABLE + "(achievement text not null, date text not null, score integer not null, meal text not null)");
 			db.execSQL("CREATE TABLE " + FOODTABLE + "(food text not null, calories integer not null, carbs integer not null, fat integer not null, protein integer not null)");
 		}
 
