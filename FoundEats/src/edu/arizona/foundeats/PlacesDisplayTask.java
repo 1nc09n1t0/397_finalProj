@@ -28,6 +28,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, List<HashMap<S
             googleMap = (GoogleMap) inputObj[0];
             googlePlacesJson = new JSONObject((String) inputObj[1]);
             googlePlacesList = placeJsonParser.parse(googlePlacesJson);
+            Log.d("Places Display Task", "googlePlacesJson: " + googlePlacesJson.toString());
         } catch (Exception e) {
             Log.d("Exception", e.toString());
         }

@@ -2,6 +2,7 @@ package edu.arizona.foundeats;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 
@@ -16,6 +17,8 @@ public class GooglePlacesReadTask extends AsyncTask<Object, Integer, String> {
             String googlePlacesUrl = (String) inputObj[1];
             Http http = new Http();
             googlePlacesData = http.read(googlePlacesUrl);
+            Log.d("Google Place Read Task", "googlePlacesURL: " + googlePlacesUrl);
+            Log.d("Google Place Read Task", "googlePlacesData: " + googlePlacesData);
         } catch (Exception e) {
             Log.d("Google Place Read Task", e.toString());
         }
