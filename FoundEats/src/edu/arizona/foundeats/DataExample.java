@@ -60,6 +60,7 @@ public class DataExample extends Activity {
     private int currPosMeas;
     private ProgressDialog waitDialog1;
     private ProgressDialog waitDialog2;
+    private int error = 0;
     
     
     @Override
@@ -205,6 +206,8 @@ public class DataExample extends Activity {
         					Log.d("MEASUREMENTS:", unitArray.get(i));
         				}
         				setNutritionValues();
+        			}else{
+        				error = 1;
         			}
         		}catch (JSONException e) {
         			Log.e("ERROR:", "This is not a valid JSON request");
@@ -217,6 +220,12 @@ public class DataExample extends Activity {
         	@Override
         	protected void onPostExecute(String result) {
         		super.onPostExecute(result);
+        		if(error != 0){
+        			Toast.makeText(DataExample.this, "USDA NDB loophole: no JSON for this food", Toast.LENGTH_LONG).show();
+        			error = 0;
+        			waitDialog2.dismiss();
+        			return;
+        		}
         		waitDialog2.dismiss();
         		InputMethodManager imm = (InputMethodManager)getSystemService(
         			      Context.INPUT_METHOD_SERVICE);
@@ -249,7 +258,7 @@ public class DataExample extends Activity {
     }
 
     private void updateSpinner(){
-    	if(unitArray.isEmpty())
+    	if(unitArray == null)
     		Log.d("UNIT ARRAY STATUS:", "EMPTY UNIT ARRAY");
     	else{
 	    	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitArray);
@@ -360,7 +369,6 @@ public class DataExample extends Activity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
