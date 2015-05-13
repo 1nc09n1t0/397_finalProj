@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -38,22 +39,25 @@ public class MapActivity extends Activity implements LocationListener {
 //	private GoogleApiClient mGoogleApiClient;
 	private DataHelper dh;
 //	private Marker currLoc;
-	GoogleMap googleMap;
+//	GoogleMap googleMap;
 	private int PROXIMITY_RADIUS = 5000;
+	private double latitude = 0;
+	private double longitude = 0;
+	
 	
 	private GoogleMap.OnMyLocationChangeListener currLocChangeListener = new GoogleMap.OnMyLocationChangeListener() {
 		
 		@Override
 		public void onMyLocationChange(Location location) {
 			
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			
 	        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-	        //currLoc = map.addMarker(new MarkerOptions().position(loc));
-	     
-	        //currLoc.setPosition(loc);
-	        
-	        if(map != null){
-	            map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-	        }
+
+//	        if(map != null){
+//	            map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+//	        }
 			
 		}
 	};
@@ -65,25 +69,50 @@ public class MapActivity extends Activity implements LocationListener {
 		setContentView(R.layout.activity_map);
 		dh = new DataHelper(this);
 		
+		final Geocoder coder = new Geocoder(getApplicationContext());
+
+		 map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+			        .getMap();
+		 
+		 map.setMyLocationEnabled(true);
+		 map.setOnMyLocationChangeListener(currLocChangeListener);
+		 
+		 Location myLocation = map.getMyLocation();
+		
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		String bestProvider = locationManager.getBestProvider(criteria, true);
 		Location location = locationManager.getLastKnownLocation(bestProvider);
 		if (location != null){
 			onLocationChanged(location);
+			Log.d("MapActivity", "latitude: " + location.getLatitude());
+			Log.d("MapActivity", "longitude: " + location.getLongitude());
+	        if(map != null){
+	        	LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+	        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+	        }
 		}
 		locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
-	
+		
+		latitude = 32.221743;
+		longitude = -110.926479;
+		
+//		Log.d("MapActivity", "latitude: " + location.getLatitude());
+//		Log.d("MapActivity", "longitude: " + location.getLongitude());
+		
+//		latitude = myLocation.getLatitude();
+//		longitude = myLocation.getLongitude();
+			
 		StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-//		googlePlacesUrl.append("location=" + latitude + "," + longitude);
-//        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
-//        googlePlacesUrl.append("&types=" + type);
+		googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&types=" + "grocery_or_supermarket");
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + "AIzaSyCTe8U5vrGGBPJ_x1Nq8RovEBLAQC0OeBY");
+        googlePlacesUrl.append("&key=" + "AIzaSyDtbMBY61L8E1en7zS9x8EvSeweS2Gw6Qw");
 
         GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
         Object[] toPass = new Object[2];
-        toPass[0] = googleMap;
+        toPass[0] = map;
         toPass[1] = googlePlacesUrl.toString();
         googlePlacesReadTask.execute(toPass);
 		
@@ -99,19 +128,6 @@ public class MapActivity extends Activity implements LocationListener {
 		            .build();
 		*/
 
-		
-		
-		final Geocoder coder = new Geocoder(getApplicationContext());
-
-//		
-	
-		 map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-			        .getMap();
-		 
-		 map.setMyLocationEnabled(true);
-		 map.setOnMyLocationChangeListener(currLocChangeListener);
-		 
-		 Location myLocation = map.getMyLocation();
 		 
 		 //Location currentLocation = locationManager.getLastKnownLocation("gps"); 
 //

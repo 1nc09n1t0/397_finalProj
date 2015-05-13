@@ -29,6 +29,7 @@ public class MealPlanActivity extends ListActivity {
 		lv = getListView();
 		lv.setTextFilterEnabled(true);
 		if (names.size() == 0)
+			Toast.makeText(getApplicationContext(), "No patients to display", Toast.LENGTH_LONG).show();
 			Toast.makeText(getApplicationContext(), "No scores to display", Toast.LENGTH_LONG).show();
 	}
 
