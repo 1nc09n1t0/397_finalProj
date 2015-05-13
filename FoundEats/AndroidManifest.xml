@@ -3,6 +3,7 @@
     package="edu.arizona.foundeats"
     android:versionCode="1"
     android:versionName="1.0" >
+   
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -91,9 +92,6 @@
         <meta-data 
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCTe8U5vrGGBPJ_x1Nq8RovEBLAQC0OeBY"/>
-        <!--<meta-data
-            android:name="com.google.android.geo.API_KEY"
-      		android:value="AIzaSyCTe8U5vrGGBPJ_x1Nq8RovEBLAQC0OeBY"/>-->
 
     </application>
 
