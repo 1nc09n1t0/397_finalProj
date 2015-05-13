@@ -83,25 +83,23 @@ public class MapActivity extends Activity implements LocationListener {
 		Criteria criteria = new Criteria();
 		String bestProvider = locationManager.getBestProvider(criteria, true);
 		Location location = locationManager.getLastKnownLocation(bestProvider);
+		
+		latitude = 32.221743;
+		longitude = -110.926479;
 		if (location != null){
 			onLocationChanged(location);
 			Log.d("MapActivity", "latitude: " + location.getLatitude());
 			Log.d("MapActivity", "longitude: " + location.getLongitude());
+			
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			
 	        if(map != null){
 	        	LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
 	        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
 	        }
 		}
 		locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
-		
-		latitude = 32.221743;
-		longitude = -110.926479;
-		
-//		Log.d("MapActivity", "latitude: " + location.getLatitude());
-//		Log.d("MapActivity", "longitude: " + location.getLongitude());
-		
-//		latitude = myLocation.getLatitude();
-//		longitude = myLocation.getLongitude();
 			
 		StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
 		googlePlacesUrl.append("location=" + latitude + "," + longitude);
@@ -115,108 +113,19 @@ public class MapActivity extends Activity implements LocationListener {
         toPass[0] = map;
         toPass[1] = googlePlacesUrl.toString();
         googlePlacesReadTask.execute(toPass);
-		
-		
-		
-		/*	
-		 mGoogleApiClient = new GoogleApiClient
-		            .Builder(this)
-		            .addApi(Places.GEO_DATA_API)
-		            .addApi(Places.PLACE_DETECTION_API)
-		            .addConnectionCallbacks(this)
-		            .addOnConnectionFailedListener(this)
-		            .build();
-		*/
-
-		 
-		 //Location currentLocation = locationManager.getLastKnownLocation("gps"); 
+//		
+//		StringBuilder googlePlacesUrl2 = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+//		googlePlacesUrl.append("location=" + latitude + "," + longitude);
+//        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
+//        googlePlacesUrl.append("&types=" + "restaurant");
+//        googlePlacesUrl.append("&sensor=true");
+//        googlePlacesUrl.append("&key=" + "AIzaSyDtbMBY61L8E1en7zS9x8EvSeweS2Gw6Qw");
 //
-//		 if (myLocation != null)
-//		 {
-//			double currLat = myLocation.getLatitude();
-//			double currLon = myLocation.getLongitude();
-//			LatLng currGPS = new LatLng(currLat, currLon);
-//		 
-//			//currLoc = map.addMarker(new MarkerOptions().position(currGPS));
-//		 }
-
-
-		 
-		 if (map!=null){
-		    	try {
-		    		
-		    		//Populate address list
-					//List<Address> addressList = coder.getFromLocationName("4411 E. Speedway, Tucson, AZ", 1);
-		    		List<Address> addressList = new ArrayList<Address>();
-		    		
-		    		/*
-		    		List<String> dhAddresses = dh.getLocations();
-					for (String address : dhAddresses){
-						addressList.add(coder.getFromLocationName(address, 1).get(0));
-					}
-					*/
-		    		
-//		    		addressList.add(coder.getFromLocationName("Safeway near  University of Ar", 1).get(0));
-//		    		addressList.add(coder.getFromLocationName("Roma Imports", 1).get(0));
-//		    		addressList.add(coder.getFromLocationName("Tucson Food Service", 1).get(0));
-//		    		addressList.add(coder.getFromLocationName("Food Conspiracy Co-op", 1).get(0));
-//		    		addressList.add(coder.getFromLocationName("Basha's", 1).get(0));
-//		    		addressList.add(coder.getFromLocationName("Whole Foods", 1).get(0));
-//		    		addressList.add(coder.getFromLocationName("Sprouts", 1).get(0));
-		    		
-//					//Create iterator
-//					Iterator<Address> locations = addressList.iterator();
-//					double lat = 0f;
-//					double lon = 0f;
-					
-//					// SHOW LOCATIONS
-//					while (locations.hasNext()) {
-//						Address loc = locations.next();
-//						lat = loc.getLatitude();
-//						lon = loc.getLongitude();
-//					}	
-		    		
-		    		
-					
-					Address saf = coder.getFromLocationName("Safeway near ", 1).get(0);
-					double lat = saf.getLatitude();
-					double lon = saf.getLongitude();
-					LatLng tokenGPS = new LatLng(lat, lon);
-					map.addMarker(new MarkerOptions()
-						.position(tokenGPS)
-						.title("Safeway")
-				        .snippet(coder.getFromLocationName("Safeway", 1).get(0).getAddressLine(0))
-				        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-					
-					saf = coder.getFromLocationName("Whole Foods", 1).get(0);
-					lat = saf.getLatitude();
-					lon = saf.getLongitude();
-					tokenGPS = new LatLng(lat, lon);
-					map.addMarker(new MarkerOptions()
-						.position(tokenGPS)
-						.title("Whole Foods")
-				        .snippet(coder.getFromLocationName("Whole Foods", 1).get(0).getAddressLine(0))
-				        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-					
-					saf = coder.getFromLocationName("Sprouts", 1).get(0);
-					lat = saf.getLatitude();
-					lon = saf.getLongitude();
-					tokenGPS = new LatLng(lat, lon);
-					map.addMarker(new MarkerOptions()
-						.position(tokenGPS)
-						.title("Sprouts")
-				        .snippet(coder.getFromLocationName("Sprouts", 1).get(0).getAddressLine(0))
-				        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-					
-					
-					
-					
-					
-				} catch (IOException e) {
-					Toast.makeText(getApplicationContext(), "Failed to populate List<Address>", Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				}
-		    }
+//        GooglePlacesReadTask googlePlacesReadTask2 = new GooglePlacesReadTask();
+//        Object[] toPass2 = new Object[2];
+//        toPass[0] = map;
+//        toPass[1] = googlePlacesUrl2.toString();
+//        googlePlacesReadTask2.execute(toPass2);
 		 
 		//including some animation
 	      //Move the camera instantly to Tucson with a zoom of 15.
@@ -224,7 +133,6 @@ public class MapActivity extends Activity implements LocationListener {
 
 	      // Zoom in, animating the camera.
 	      map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-	    
 		 
 	}
 	
