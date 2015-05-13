@@ -57,6 +57,7 @@ public class MapActivity extends Activity implements LocationListener {
 			
 		}
 	};
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
