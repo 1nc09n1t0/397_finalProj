@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class AchievementsActivity extends Activity {
 public class AchievementsActivity extends ListActivity {
 	private List<String> names;
 	private ArrayAdapter<String> adapter;
